@@ -14,14 +14,14 @@ public class Monster {
 
     private boolean alive;
 
-    public Monster() {
+    public Monster(float x, float y) {
         this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
         this.sprite.setColor(1, 0, 0, 1);
         this.position = new Rectangle();
         this.position.width = 64;
         this.position.height = 64;
-        this.position.x = 0;
-        this.position.y = 0;
+        this.position.x = x;
+        this.position.y = y;
         this.alive = true;
     }
 
@@ -42,7 +42,7 @@ public class Monster {
             this.position.y -= 100 * Gdx.graphics.getDeltaTime();
         }
 
-        if(this.position.overlaps(player.attackArea) && false){
+        if(this.position.overlaps(player.attackArea) && player.attacking){
             System.out.println("Monster Hit");
             this.position.x = 0;
             this.position.y = 0;
@@ -51,7 +51,7 @@ public class Monster {
         }
 
         if(this.position.overlaps(player.position)){
-            player.getAttacked(10);
+            player.getAttacked(1);
         }
     }
 

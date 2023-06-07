@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
         this.game = game;
 
         player = new Player();
-        monster = new Monster();
+        monster = new Monster(800,200);
         item = new Item("sword", 10, "Attack", 10);
 
         // load the images for the droplet and the bucket, 64x64 pixels each
@@ -147,6 +147,8 @@ public class GameScreen implements Screen {
         // move the raindrops, remove any that are beneath the bottom edge of
         // the screen or that hit the bucket. In the later case we increase the
         // value our drops counter and add a sound effect.
+
+        /*
         Iterator<Rectangle> iter = raindrops.iterator();
         while (false && iter.hasNext()) {
             Rectangle raindrop = iter.next();
@@ -159,6 +161,7 @@ public class GameScreen implements Screen {
                 iter.remove();
             }
         }
+        */
     }
 
     @Override

@@ -16,14 +16,12 @@ public class Player {
 
     public Rectangle position;
     public Sprite sprite;
-
     private int health;
-
     private boolean invulnerable;
-
+    public boolean attacking;
     public ArrayList<Item> inventory;
-
     public Rectangle attackArea;
+    private Texture heartTex;
 
     public Player() {
         this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
@@ -37,9 +35,12 @@ public class Player {
         this.attackArea.height = 0;
         this.attackArea.x = this.position.x;
         this.attackArea.y = this.position.y;
-        this.health = 100;
+        this.health = 10;
         this.inventory = new ArrayList<Item>();
         this.invulnerable = false;
+        this.attacking = false;
+
+        this.heartTex = new Texture(Gdx.files.internal("heart.png"));
     }
 
     public void update() {
@@ -60,11 +61,13 @@ public class Player {
             this.attackArea.y -= 400 * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.hasSword()) {
-
-
+            this.attacking = true;
             this.sprite.setColor(0, 1, 0, 1);
             this.attackArea.width = 128;
             this.attackArea.height = 128;
+            CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(() -> {
+                this.attacking = false;
+            });
         } else {
             this.sprite.setColor(1, 1, 1, 1);
             this.attackArea.width = 0;
@@ -75,6 +78,10 @@ public class Player {
     public void draw(SpriteBatch batch){
         this.sprite.setPosition(this.position.x, this.position.y);
         this.sprite.draw(batch);
+        //Display the life points
+        for(int i = 0; i<this.health; i++){
+            batch.draw(heartTex, i*32 + 15, 430, 32,32);
+        }
     }
 
     public void getAttacked(int damage){
