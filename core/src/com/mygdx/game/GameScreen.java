@@ -125,6 +125,13 @@ public class GameScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
             game.setScreen(new MainMenuScreen(game));
+            rainMusic.stop();
+        }
+        if(Gdx.input.isKeyPressed(Keys.M)){
+            if(rainMusic.isPlaying())
+                rainMusic.pause();
+            else
+                rainMusic.play();
         }
 
         // make sure the bucket stays within the screen bounds

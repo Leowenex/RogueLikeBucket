@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class Player {
 
@@ -16,6 +18,8 @@ public class Player {
     public Sprite sprite;
 
     private int health;
+
+    private boolean invulnerable;
 
     public ArrayList<Item> inventory;
 
@@ -35,6 +39,7 @@ public class Player {
         this.attackArea.y = this.position.y;
         this.health = 100;
         this.inventory = new ArrayList<Item>();
+        this.invulnerable = false;
     }
 
     public void update() {
@@ -73,11 +78,22 @@ public class Player {
     }
 
     public void getAttacked(int damage){
-        this.health -= damage;
-        if(this.health <= 0){
-            System.out.println("Game Over");
-            Gdx.app.exit();
+        if(!invulnerable){
+            System.out.println("Player got attacked !");
+            this.sprite.setColor(1,0,0,1);
+            this.health -= damage;
+            System.out.println("New HP:" + this.health);
+            if(this.health <= 0){
+                System.out.println("Game Over");
+                Gdx.app.exit();
+            }
+            this.invulnerable = true;
+
+            CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
+                this.invulnerable = false;
+            });
         }
+
     }
 
     public boolean hasSword(){

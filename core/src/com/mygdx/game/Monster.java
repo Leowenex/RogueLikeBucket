@@ -42,7 +42,7 @@ public class Monster {
             this.position.y -= 100 * Gdx.graphics.getDeltaTime();
         }
 
-        if(this.position.overlaps(player.attackArea)){
+        if(this.position.overlaps(player.attackArea) && false){
             System.out.println("Monster Hit");
             this.position.x = 0;
             this.position.y = 0;
