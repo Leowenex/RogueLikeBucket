@@ -67,7 +67,7 @@ public class Item {
         this.sprite.setPosition(this.position.x, this.position.y);
         this.sprite.draw(batch);
         if(this.displayText){
-            this.font.draw(batch, this.name + " : Press P to pickup", this.position.x, this.position.y + 32);
+            this.font.draw(batch, this.name + " : Press P to pickup", this.position.x, this.position.y + 64);
         }
     }
 

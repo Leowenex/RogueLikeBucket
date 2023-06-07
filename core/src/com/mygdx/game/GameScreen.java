@@ -105,16 +105,19 @@ public class GameScreen implements Screen {
         monster.draw(game.batch);
         item.draw(game.batch);
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
+        /*
         game.batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height, 0, 0, 64, 64, bucketMovingRight, bucketMovingDown);
         for (Rectangle raindrop : raindrops) {
             game.batch.draw(dropImage, raindrop.x, raindrop.y);
         }
+         */
         game.batch.end();
 
         player.update();
         monster.update(player);
         item.update(player);
 
+        /*
         // process user input
         if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
@@ -122,6 +125,8 @@ public class GameScreen implements Screen {
             camera.unproject(touchPos);
             bucket.x = touchPos.x - 64 / 2;
         }
+
+         */
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
             game.setScreen(new MainMenuScreen(game));
@@ -135,14 +140,21 @@ public class GameScreen implements Screen {
         }
 
         // make sure the bucket stays within the screen bounds
+        /*
         if (bucket.x < 0)
             bucket.x = 0;
         if (bucket.x > 800 - 64)
             bucket.x = 800 - 64;
+        */
+
 
         // check if we need to create a new raindrop
+
+        /*
         if (TimeUtils.nanoTime() - lastDropTime > 1000000000)
             spawnRaindrop();
+
+         */
 
         // move the raindrops, remove any that are beneath the bottom edge of
         // the screen or that hit the bucket. In the later case we increase the

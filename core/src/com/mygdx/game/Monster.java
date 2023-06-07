@@ -29,10 +29,10 @@ public class Monster {
         if(!this.alive){
             return;
         }
-        if(player.position.x > this.position.x){
+        if(player.position.x - player.sprite.getWidth() > this.position.x){
             this.position.x += 100 * Gdx.graphics.getDeltaTime();
         }
-        if(player.position.x < this.position.x){
+        if(player.position.x + player.sprite.getWidth() < this.position.x){
             this.position.x -= 100 * Gdx.graphics.getDeltaTime();
         }
         if(player.position.y > this.position.y){
