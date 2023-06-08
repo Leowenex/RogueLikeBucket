@@ -24,7 +24,7 @@ public class Item {
     private BitmapFont font;
 
 
-    public Item(String name, int effectValue, String effectType, int cost) {
+    public Item(String name, int effectValue, String effectType, int cost, int x, int y) {
         this.name = name;
         this.effectValue = effectValue;
         this.effectType = effectType;
@@ -32,8 +32,8 @@ public class Item {
         this.sprite = new Sprite(new Texture(Gdx.files.internal("sword.png")));
         this.sprite.setSize(32, 32);
 
-        this.x = 5;
-        this.y = 5;
+        this.x = x;
+        this.y = y;
 
         this.pickable=true;
         this.displayText=true;

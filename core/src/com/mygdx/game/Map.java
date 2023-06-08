@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Map {
 
     public Tile[][] tiles;
@@ -124,9 +127,58 @@ public class Map {
         return tiles[x][y];
     }
 
-    public int[] getPlayerPosition(int entrypoint){
-        System.out.println("entrypoint : " + entrypoint);
-        return new int[]{1, 1};
+    public int[] findPlayerStart(){
+
+        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+        while(tiles[randomX][randomY].getMaterial() != Materials.AIR){
+            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+        }
+
+        return new int[]{randomX, randomY};
+
+    }
+
+    public ArrayList<Monster> placeMonsters(int[] playerPos, int difficulty){
+
+        ArrayList<Monster> monsters = new ArrayList<Monster>();
+
+        for(int i = 0; i <difficulty; i++){
+            int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+            while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+                randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+                randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+            }
+
+            monsters.add(new Monster(randomX, randomY));
+        }
+
+        return monsters;
+
+    }
+
+    public ArrayList<Item> placeItems(int[] playerPos, int difficulty){
+
+        ArrayList<Item> items = new ArrayList<Item>();
+
+        for(int i = 0; i <difficulty; i++){
+            int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+            while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+                randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+                randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+            }
+
+            items.add(new Item("sword", 10, "Attack", 10, randomX, randomY));
+        }
+
+        return items;
+
     }
 
     public void draw(SpriteBatch batch) {

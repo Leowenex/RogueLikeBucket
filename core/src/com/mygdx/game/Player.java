@@ -27,11 +27,11 @@ public class Player {
 
     private long lastMoveTime;
 
-    public Player() {
+    public Player(int x, int y) {
         this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
         this.sprite.setSize(32, 32);
-        this.x = 1;
-        this.y = 1;
+        this.x = x;
+        this.y = y;
         this.attackArea = new Rectangle();
         this.attackArea.width = 0;
         this.attackArea.height = 0;

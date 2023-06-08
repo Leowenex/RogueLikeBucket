@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -30,9 +31,9 @@ public class GameScreen implements Screen {
     Array<Rectangle> raindrops;
 
     Player player;
-    Monster monster;
+    ArrayList<Monster> monsters;
 
-    Item item;
+    ArrayList<Item> items;
 
     long lastDropTime;
     int dropsGathered;
@@ -45,10 +46,13 @@ public class GameScreen implements Screen {
 
         map = new Map(40,25);
 
+        int[] playerPos = map.findPlayerStart();
+        player = new Player(playerPos[0], playerPos[1]);
 
-        player = new Player();
-        monster = new Monster(22,7);
-        item = new Item("sword", 10, "Attack", 10);
+
+        int difficuty = 2;
+        monsters = map.placeMonsters(playerPos, difficuty);
+        items = map.placeItems(playerPos, difficuty);
 
         // load the images for the droplet and the bucket, 64x64 pixels each
         dropImage = new Texture(Gdx.files.internal("droplet.png"));
@@ -108,8 +112,10 @@ public class GameScreen implements Screen {
         game.batch.begin();
         map.draw(game.batch);
         player.draw(game.batch);
-        monster.draw(game.batch);
-        item.draw(game.batch);
+        for(Monster monster : monsters)
+            monster.draw(game.batch);
+        for (Item item : items)
+            item.draw(game.batch);
         /*
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         */
@@ -123,11 +129,10 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         player.update(map);
-        if(!monster.isAlive()){
-            monster = new Monster(22,7);
-        }
-        monster.update(player);
-        item.update(player);
+        for(Monster monster : monsters)
+            monster.update(player);
+        for (Item item : items)
+            item.update(player);
 
         /*
         // process user input
