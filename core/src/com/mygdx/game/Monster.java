@@ -64,7 +64,7 @@ public class Monster {
     }
 
     public void draw(SpriteBatch batch){
-        this.sprite.setPosition(this.x * 32, 448-this.y*32);
+        this.sprite.setPosition(this.x * 32, 800-this.y*32);
         this.sprite.draw(batch);
     }
 

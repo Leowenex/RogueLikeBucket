@@ -87,11 +87,11 @@ public class Player {
     }
 
     public void draw(SpriteBatch batch){
-        this.sprite.setPosition(this.x*32, 448-this.y*32);
+        this.sprite.setPosition(this.x*32, 800-this.y*32);
         this.sprite.draw(batch);
         //Display the life points
         for(int i = 0; i<this.health; i++){
-            batch.draw(heartTex, i*32 + 15, 430, 32,32);
+            batch.draw(heartTex, i*32 + 15, 850, 32,32);
         }
 
     }

@@ -63,10 +63,10 @@ public class Item {
     }
 
     public void draw(SpriteBatch batch) {
-        this.sprite.setPosition(this.x * 32, 448 - this.y*32);
+        this.sprite.setPosition(this.x * 32, 800 - this.y*32);
         this.sprite.draw(batch);
         if(this.displayText){
-            this.font.draw(batch, this.name + " : Press P to pickup", this.x * 32, 448 - this.y*32 + 64);
+            this.font.draw(batch, this.name + " : Press P to pickup", this.x * 32, 800 - this.y*32 + 64);
         }
     }
 

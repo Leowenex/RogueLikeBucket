@@ -43,7 +43,8 @@ public class GameScreen implements Screen {
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
-        map = new Map(25,15);
+        map = new Map(40,25);
+
 
         player = new Player();
         monster = new Monster(22,7);
@@ -60,7 +61,7 @@ public class GameScreen implements Screen {
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1600, 900);
 
         // create a Rectangle to logically represent the bucket
         bucket = new Rectangle();
@@ -112,7 +113,7 @@ public class GameScreen implements Screen {
         /*
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         */
-        game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 0, 480);
+        game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 600, 850);
         /*
         game.batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height, 0, 0, 64, 64, bucketMovingRight, bucketMovingDown);
         for (Rectangle raindrop : raindrops) {
