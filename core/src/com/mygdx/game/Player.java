@@ -43,6 +43,10 @@ public class Player {
         this.heartTex = new Texture(Gdx.files.internal("heart.png"));
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     public void update() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             this.position.x -= 400 * Gdx.graphics.getDeltaTime();
@@ -92,7 +96,6 @@ public class Player {
             System.out.println("New HP:" + this.health);
             if(this.health <= 0){
                 System.out.println("Game Over");
-                Gdx.app.exit();
             }
             this.invulnerable = true;
 

@@ -20,6 +20,7 @@ public class Item {
     public Rectangle holdArea;
 
     private boolean displayText;
+    private boolean pickable;
 
     private BitmapFont font;
 
@@ -42,11 +43,16 @@ public class Item {
         this.holdArea.height = 128;
         this.holdArea.x = this.position.x - this.holdArea.width / 2;
         this.holdArea.y = this.position.y - this.holdArea.height / 2;
+        this.pickable=true;
+        this.displayText=true;
 
         this.font = new BitmapFont();
     }
 
     public void update(Player player) {
+        if(!this.pickable){
+            return;
+        }
         if(this.holdArea.overlaps(player.position)){
 
             displayText = true;
@@ -57,6 +63,7 @@ public class Item {
                 this.sprite.setColor(0, 0, 0, 0);
                 this.position.x = -1000;
                 this.position.y = -1000;
+                this.pickable = false;
             }
         }else {
             displayText = false;
