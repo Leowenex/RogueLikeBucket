@@ -6,57 +6,65 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Monster {
 
-    public Rectangle position;
+    public int x;
+    public int y;
+
     public Sprite sprite;
 
     private boolean alive;
 
-    public Monster(float x, float y) {
+    private long lastMoveTime;
+
+    public Monster(int x, int y) {
         this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
+        this.sprite.setSize(32, 32);
         this.sprite.setColor(1, 0, 0, 1);
-        this.position = new Rectangle();
-        this.position.width = 64;
-        this.position.height = 64;
-        this.position.x = x;
-        this.position.y = y;
+        this.x = x;
+        this.y = y;
         this.alive = true;
+        lastMoveTime = TimeUtils.nanoTime();
     }
 
     public void update(Player player) {
         if(!this.alive){
             return;
         }
-        if(player.position.x - player.sprite.getWidth() > this.position.x){
-            this.position.x += 100 * Gdx.graphics.getDeltaTime();
-        }
-        if(player.position.x + player.sprite.getWidth() < this.position.x){
-            this.position.x -= 100 * Gdx.graphics.getDeltaTime();
-        }
-        if(player.position.y > this.position.y){
-            this.position.y += 100 * Gdx.graphics.getDeltaTime();
-        }
-        if(player.position.y < this.position.y){
-            this.position.y -= 100 * Gdx.graphics.getDeltaTime();
+        if (TimeUtils.nanoTime() - lastMoveTime > 750000000) {
+            lastMoveTime = TimeUtils.nanoTime();
+            if (player.x - 1 > this.x) {
+                this.x += 1;
+            }
+            if (player.x + 1 < this.x) {
+                this.x -= 1;
+            }
+            if (player.y - 1 > this.y) {
+                this.y += 1;
+            }
+            if (player.y + 1 < this.y) {
+                this.y -= 1;
+            }
         }
 
-        if(this.position.overlaps(player.attackArea) && player.attacking){
+        if((Math.abs(player.x - this.x) <= 1 && player.y == this.y)||
+                (player.x == this.x &&Math.abs(player.y - this.y) <= 1)) {
+            player.getAttacked(1);
+        }
+
+        if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1 && player.attacking){
             System.out.println("Monster Hit");
-            this.position.x = 0;
-            this.position.y = 0;
+            this.x = 0;
+            this.y = 0;
             this.sprite.setColor(0, 0, 0, 0);
             this.alive = false;
-        }
-
-        if(this.position.overlaps(player.position)){
-            player.getAttacked(1);
         }
     }
 
     public void draw(SpriteBatch batch){
-        this.sprite.setPosition(this.position.x, this.position.y);
+        this.sprite.setPosition(this.x * 32, 448-this.y*32);
         this.sprite.draw(batch);
     }
 

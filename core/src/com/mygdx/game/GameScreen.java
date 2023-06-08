@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class GameScreen implements Screen {
     final GameLauncher game;
 
+    Map map;
+
     Texture dropImage;
     Texture bucketImage;
     Sound dropSound;
@@ -41,8 +43,10 @@ public class GameScreen implements Screen {
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
+        map = new Map(25,15);
+
         player = new Player();
-        monster = new Monster(800,200);
+        monster = new Monster(22,7);
         item = new Item("sword", 10, "Attack", 10);
 
         // load the images for the droplet and the bucket, 64x64 pixels each
@@ -101,6 +105,7 @@ public class GameScreen implements Screen {
         // begin a new batch and draw the bucket and
         // all drops
         game.batch.begin();
+        map.draw(game.batch);
         player.draw(game.batch);
         monster.draw(game.batch);
         item.draw(game.batch);
@@ -116,9 +121,9 @@ public class GameScreen implements Screen {
          */
         game.batch.end();
 
-        player.update();
+        player.update(map);
         if(!monster.isAlive()){
-            monster = new Monster(800,200);
+            monster = new Monster(22,7);
         }
         monster.update(player);
         item.update(player);

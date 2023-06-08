@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -14,7 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Player {
 
-    public Rectangle position;
+    public int x;
+    public int y;
     public Sprite sprite;
     private int health;
     private boolean invulnerable;
@@ -23,18 +25,18 @@ public class Player {
     public Rectangle attackArea;
     private Texture heartTex;
 
+    private long lastMoveTime;
+
     public Player() {
         this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
-        this.position = new Rectangle();
-        this.position.width = 64;
-        this.position.height = 64;
-        this.position.x = 800 / 2 - 64 / 2;
-        this.position.y = 20;
+        this.sprite.setSize(32, 32);
+        this.x = 1;
+        this.y = 1;
         this.attackArea = new Rectangle();
         this.attackArea.width = 0;
         this.attackArea.height = 0;
-        this.attackArea.x = this.position.x;
-        this.attackArea.y = this.position.y;
+        this.attackArea.x = this.x;
+        this.attackArea.y = this.y;
         this.health = 10;
         this.inventory = new ArrayList<Item>();
         this.invulnerable = false;
@@ -47,23 +49,28 @@ public class Player {
         return health;
     }
 
-    public void update() {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            this.position.x -= 400 * Gdx.graphics.getDeltaTime();
-            this.attackArea.x -= 400 * Gdx.graphics.getDeltaTime();
+    public void update(Map map) {
+
+        if (TimeUtils.nanoTime() - lastMoveTime > 150000000) {
+            lastMoveTime = TimeUtils.nanoTime();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial()!= Materials.WALL) {
+                this.x -= 1;
+                this.attackArea.x -= 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial()!= Materials.WALL) {
+                this.x += 1;
+                this.attackArea.x += 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial()!= Materials.WALL) {
+                this.y -= 1;
+                this.attackArea.y -= 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial()!= Materials.WALL ) {
+                this.y += 1;
+                this.attackArea.y += 1;
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            this.position.x += 400 * Gdx.graphics.getDeltaTime();
-            this.attackArea.x += 400 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            this.position.y += 400 * Gdx.graphics.getDeltaTime();
-            this.attackArea.y += 400 * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            this.position.y -= 400 * Gdx.graphics.getDeltaTime();
-            this.attackArea.y -= 400 * Gdx.graphics.getDeltaTime();
-        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.hasSword()) {
             this.attacking = true;
             this.sprite.setColor(0, 1, 0, 1);
@@ -80,7 +87,7 @@ public class Player {
     }
 
     public void draw(SpriteBatch batch){
-        this.sprite.setPosition(this.position.x, this.position.y);
+        this.sprite.setPosition(this.x*32, 448-this.y*32);
         this.sprite.draw(batch);
         //Display the life points
         for(int i = 0; i<this.health; i++){

@@ -15,9 +15,8 @@ public class Item {
     public String effectType;
     public int cost;
     public Sprite sprite;
-    public Rectangle position;
-
-    public Rectangle holdArea;
+    public int x;
+    public int y;
 
     private boolean displayText;
     private boolean pickable;
@@ -32,16 +31,10 @@ public class Item {
         this.cost = cost;
         this.sprite = new Sprite(new Texture(Gdx.files.internal("sword.png")));
         this.sprite.setSize(32, 32);
-        this.position = new Rectangle();
-        this.position.width = 32;
-        this.position.height = 32;
-        this.position.x = 200;
-        this.position.y = 200;
-        this.holdArea = new Rectangle();
-        this.holdArea.width = 128;
-        this.holdArea.height = 128;
-        this.holdArea.x = this.position.x - this.holdArea.width / 2;
-        this.holdArea.y = this.position.y - this.holdArea.height / 2;
+
+        this.x = 5;
+        this.y = 5;
+
         this.pickable=true;
         this.displayText=true;
 
@@ -52,7 +45,7 @@ public class Item {
         if(!this.pickable){
             return;
         }
-        if(this.holdArea.overlaps(player.position)){
+        if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
 
             displayText = true;
 
@@ -60,8 +53,8 @@ public class Item {
                 player.inventory.add(this);
                 System.out.println("Item Collected");
                 this.sprite.setColor(0, 0, 0, 0);
-                this.position.x = -1000;
-                this.position.y = -1000;
+                this.x = -1000;
+                this.y = -1000;
                 this.pickable = false;
             }
         }else {
@@ -70,10 +63,10 @@ public class Item {
     }
 
     public void draw(SpriteBatch batch) {
-        this.sprite.setPosition(this.position.x, this.position.y);
+        this.sprite.setPosition(this.x * 32, 448 - this.y*32);
         this.sprite.draw(batch);
         if(this.displayText){
-            this.font.draw(batch, this.name + " : Press P to pickup", this.position.x, this.position.y + 64);
+            this.font.draw(batch, this.name + " : Press P to pickup", this.x * 32, 448 - this.y*32 + 64);
         }
     }
 
