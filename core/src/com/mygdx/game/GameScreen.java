@@ -41,6 +41,8 @@ public class GameScreen implements Screen {
     boolean bucketMovingRight;
     boolean bucketMovingDown;
 
+    int[] exitPos;
+
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
@@ -57,6 +59,7 @@ public class GameScreen implements Screen {
         // load the images for the droplet and the bucket, 64x64 pixels each
         dropImage = new Texture(Gdx.files.internal("droplet.png"));
         bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+        exitPos = map.placeExit(playerPos);
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -133,6 +136,12 @@ public class GameScreen implements Screen {
             monster.update(player);
         for (Item item : items)
             item.update(player);
+
+        if(player.x == exitPos[0] && player.y == exitPos[1]){
+            //TODO: faire une fonction qui remplace la map et reset les monstres et items au lieu de recréer un GameScreen
+            game.setScreen(new GameScreen(game));
+            rainMusic.stop();
+        }
 
         /*
         // process user input

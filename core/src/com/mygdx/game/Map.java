@@ -129,6 +129,8 @@ public class Map {
 
     public int[] findPlayerStart(){
 
+        //TODO: Prendre en compte où le joueur est sorti du niveau précédent
+
         int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
         int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
 
@@ -142,7 +144,7 @@ public class Map {
     }
 
     public ArrayList<Monster> placeMonsters(int[] playerPos, int difficulty){
-
+        //TODO: Prendre en compte les futur différents types de monstres
         ArrayList<Monster> monsters = new ArrayList<Monster>();
 
         for(int i = 0; i <difficulty; i++){
@@ -162,7 +164,7 @@ public class Map {
     }
 
     public ArrayList<Item> placeItems(int[] playerPos, int difficulty){
-
+        //TODO: Faire en sorte que la porte apparaisse loin du joueur
         ArrayList<Item> items = new ArrayList<Item>();
 
         for(int i = 0; i <difficulty; i++){
@@ -178,6 +180,22 @@ public class Map {
         }
 
         return items;
+
+    }
+
+    public int[] placeExit(int[] playerPos){
+        //TODO: Faire en sorte que la porte apparaisse loin du joueur
+        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+        }
+
+        tiles[randomX][randomY].texture = new Texture(Gdx.files.internal("Door.png"));
+
+        return new int[]{randomX, randomY};
 
     }
 
