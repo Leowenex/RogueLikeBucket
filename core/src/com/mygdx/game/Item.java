@@ -30,8 +30,7 @@ public class Item {
         this.effectValue = effectValue;
         this.effectType = effectType;
         this.cost = cost;
-        this.sprite = new Sprite(new Texture(Gdx.files.internal("droplet.png")));
-        this.sprite.setColor(0, 0, 1, 1);
+        this.sprite = new Sprite(new Texture(Gdx.files.internal("sword.png")));
         this.sprite.setSize(32, 32);
         this.position = new Rectangle();
         this.position.width = 32;

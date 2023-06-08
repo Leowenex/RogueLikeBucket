@@ -7,11 +7,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameOverScreen implements Screen {
 
-    final Drop game;
+    final GameLauncher game;
 
     OrthographicCamera camera;
 
-    public GameOverScreen(final Drop game) {
+    public GameOverScreen(final GameLauncher game) {
         this.game = game;
 
         camera = new OrthographicCamera();

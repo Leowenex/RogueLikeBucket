@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
-    final Drop game;
+    final GameLauncher game;
 
     Texture dropImage;
     Texture bucketImage;
@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
     boolean bucketMovingRight;
     boolean bucketMovingDown;
 
-    public GameScreen(final Drop game) {
+    public GameScreen(final GameLauncher game) {
         this.game = game;
 
         player = new Player();
@@ -104,6 +104,9 @@ public class GameScreen implements Screen {
         player.draw(game.batch);
         monster.draw(game.batch);
         item.draw(game.batch);
+        /*
+        game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
+        */
         game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 0, 480);
         /*
         game.batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height, 0, 0, 64, 64, bucketMovingRight, bucketMovingDown);
@@ -114,6 +117,9 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         player.update();
+        if(!monster.isAlive()){
+            monster = new Monster(800,200);
+        }
         monster.update(player);
         item.update(player);
 

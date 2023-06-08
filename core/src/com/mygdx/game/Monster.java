@@ -60,4 +60,8 @@ public class Monster {
         this.sprite.draw(batch);
     }
 
+    public boolean isAlive(){
+        return this.alive;
+    }
+
 }

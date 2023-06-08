@@ -86,6 +86,7 @@ public class Player {
         for(int i = 0; i<this.health; i++){
             batch.draw(heartTex, i*32 + 15, 430, 32,32);
         }
+
     }
 
     public void getAttacked(int damage){
