@@ -71,13 +71,6 @@ public class GameScreen implements Screen {
         dropImage = new Texture(Gdx.files.internal("droplet.png"));
         bucketImage = new Texture(Gdx.files.internal("bucket.png"));
         exitPos = map.placeExit(playerPos);
-//        for(int i=0; i< map.initial_coordinates_monsters.length;i++){
-//            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
-//            spawn.setSize(32,32);
-//            spawn.setPosition(map.initial_coordinates_monsters[i][0] * 32, 800-map.initial_coordinates_monsters[i][1]*32);
-//            spawn.draw(game.batch);
-//            System.out.println("loop");
-//        }
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -132,10 +125,10 @@ public class GameScreen implements Screen {
         // all drops
         game.batch.begin();
         map.draw(game.batch);
-        player.draw(game.batch);
         for(Sprite spawn: spawns){
             spawn.draw(game.batch);
         }
+        player.draw(game.batch);
         for(Monster monster : monsters) {
             monster.draw(game.batch);
         }
@@ -145,20 +138,37 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         */
         game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 600, 850);
+
+        for (int i=0;i<9;i++){
+            Sprite inventory = new Sprite(new Texture(Gdx.files.internal("inventory_case.png")));
+            inventory.setSize(80,80);
+            inventory.setPosition(1300, 750 - i*90);
+            inventory.draw(game.batch);
+        }
+
+        for(int i=0;i<player.inventory.size();i++){
+            player.inventory.get(i).sprite.setPosition(1308, 750 - i*90);
+            player.inventory.get(i).sprite.setSize(64,64);
+            player.inventory.get(i).sprite.draw(game.batch);
+        }
+
         /*
         game.batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height, 0, 0, 64, 64, bucketMovingRight, bucketMovingDown);
         for (Rectangle raindrop : raindrops) {
             game.batch.draw(dropImage, raindrop.x, raindrop.y);
         }
          */
-        game.batch.end();
+
 
         player.update(map);
         for(Monster monster : monsters)
             monster.update(player);
-        for (Item item : items)
+        for (Item item : items) {
             item.update(player);
+        }
 
+
+        game.batch.end();
         if(player.x == exitPos[0] && player.y == exitPos[1]){
             //TODO: faire une fonction qui remplace la map et reset les monstres et items au lieu de recréer un GameScreen
             game.setScreen(new GameScreen(game));

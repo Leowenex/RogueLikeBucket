@@ -20,6 +20,7 @@ public class Item {
 
     private boolean displayText;
     private boolean pickable;
+    public boolean inInventory;
 
     private BitmapFont font;
 
@@ -37,6 +38,7 @@ public class Item {
 
         this.pickable=true;
         this.displayText=true;
+        this.inInventory=false;
 
         this.font = new BitmapFont();
     }
@@ -52,10 +54,10 @@ public class Item {
             if(Gdx.input.isKeyPressed(Input.Keys.P)){
                 player.inventory.add(this);
                 System.out.println("Item Collected");
-                this.sprite.setColor(0, 0, 0, 0);
                 this.x = -1000;
                 this.y = -1000;
                 this.pickable = false;
+                this.inInventory = true;
             }
         }else {
             displayText = false;
