@@ -24,13 +24,9 @@ public class GameScreen implements Screen {
 
     Map map;
 
-    Texture dropImage;
-    Texture bucketImage;
     Sound dropSound;
     Music rainMusic;
     OrthographicCamera camera;
-    Rectangle bucket;
-    Array<Rectangle> raindrops;
 
     Player player;
     ArrayList<Monster> monsters;
@@ -40,24 +36,22 @@ public class GameScreen implements Screen {
     ArrayList<Sprite> spawns;
 
     long lastDropTime;
-    int dropsGathered;
 
-    boolean bucketMovingRight;
-    boolean bucketMovingDown;
+    int level;
 
     int[] exitPos;
 
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
-        int difficulty = 2;
-        map = new Map(40,25, difficulty);
+        level = 1;
+        map = new Map(40,25, level);
 
         int[] playerPos = map.findPlayerStart();
         player = new Player(playerPos[0], playerPos[1]);
 
 
-        monsters = map.placeMonsters(playerPos, difficulty);
+        monsters = map.placeMonsters(playerPos, level);
         this.spawns = new ArrayList<Sprite>();
         for(Monster monster : monsters){
             Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
@@ -65,11 +59,7 @@ public class GameScreen implements Screen {
             spawn.setPosition(monster.x *32,800 - monster.y*32);
             spawns.add(spawn);
         }
-        items = map.placeItems(playerPos, difficulty);
-
-        // load the images for the droplet and the bucket, 64x64 pixels each
-        dropImage = new Texture(Gdx.files.internal("droplet.png"));
-        bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+        items = map.placeItems(playerPos, level);
         exitPos = map.placeExit(playerPos);
 
         // load the drop sound effect and the rain background "music"
@@ -80,20 +70,6 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
-
-        // create a Rectangle to logically represent the bucket
-        bucket = new Rectangle();
-        bucket.x = 800 / 2 - 64 / 2; // center the bucket horizontally
-        bucket.y = 20; // bottom left corner of the bucket is 20 pixels above
-
-        // the bottom screen edge
-        bucket.width = 64;
-        bucket.height = 64;
-
-        // create the raindrops array and spawn the first raindrop
-        raindrops = new Array<Rectangle>();
-        spawnRaindrop();
-
     }
 
     private void spawnRaindrop() {
@@ -102,7 +78,6 @@ public class GameScreen implements Screen {
         raindrop.y = 480;
         raindrop.width = 64;
         raindrop.height = 64;
-        raindrops.add(raindrop);
         lastDropTime = TimeUtils.nanoTime();
     }
 
@@ -170,9 +145,7 @@ public class GameScreen implements Screen {
 
         game.batch.end();
         if(player.x == exitPos[0] && player.y == exitPos[1]){
-            //TODO: faire une fonction qui remplace la map et reset les monstres et items au lieu de recréer un GameScreen
-            game.setScreen(new GameScreen(game));
-            rainMusic.stop();
+            this.loadNextMap();
         }
 
         /*
@@ -238,6 +211,27 @@ public class GameScreen implements Screen {
         */
     }
 
+    public void loadNextMap(){
+
+        level++;
+
+        map = new Map(40,25, level);
+        int[] playerPos = map.findPlayerStart();
+        player.x = playerPos[0];
+        player.y = playerPos[1];
+        monsters = map.placeMonsters(playerPos, level);
+        this.spawns = new ArrayList<Sprite>();
+        for(Monster monster : monsters){
+            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
+            spawn.setSize(32,32);
+            spawn.setPosition(monster.x *32,800 - monster.y*32);
+            spawns.add(spawn);
+        }
+        items = map.placeItems(playerPos, level);
+
+        exitPos = map.placeExit(playerPos);
+    }
+
     @Override
     public void resize(int width, int height) {
     }
@@ -265,8 +259,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        dropImage.dispose();
-        bucketImage.dispose();
         dropSound.dispose();
         rainMusic.dispose();
     }
