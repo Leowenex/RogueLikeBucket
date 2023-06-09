@@ -13,6 +13,7 @@ public class Monster {
     public int x;
     public int y;
 
+
     public Sprite sprite;
 
     private boolean alive;

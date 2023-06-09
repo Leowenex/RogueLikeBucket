@@ -13,7 +13,7 @@ public class Map {
     public int width;
     public int height;
 
-    public Map(int width, int height) {
+    public Map(int width, int height, int difficulty) {
         this.width = width;
         this.height = height;
         tiles = new Tile[width][height];
@@ -29,6 +29,7 @@ public class Map {
                     tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("Wall.png")));
                 }
             }
+
         }
 
         for (int x = 1; x < width - 1; x++) {
@@ -155,7 +156,6 @@ public class Map {
                 randomX = ThreadLocalRandom.current().nextInt(1, width-1);
                 randomY = ThreadLocalRandom.current().nextInt(1, height-1);
             }
-
             monsters.add(new Monster(randomX, randomY));
         }
 

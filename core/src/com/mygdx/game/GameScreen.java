@@ -10,6 +10,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -35,6 +37,8 @@ public class GameScreen implements Screen {
 
     ArrayList<Item> items;
 
+    ArrayList<Sprite> spawns;
+
     long lastDropTime;
     int dropsGathered;
 
@@ -46,20 +50,34 @@ public class GameScreen implements Screen {
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
-        map = new Map(40,25);
+        int difficulty = 2;
+        map = new Map(40,25, difficulty);
 
         int[] playerPos = map.findPlayerStart();
         player = new Player(playerPos[0], playerPos[1]);
 
 
-        int difficuty = 2;
-        monsters = map.placeMonsters(playerPos, difficuty);
-        items = map.placeItems(playerPos, difficuty);
+        monsters = map.placeMonsters(playerPos, difficulty);
+        this.spawns = new ArrayList<Sprite>();
+        for(Monster monster : monsters){
+            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
+            spawn.setSize(32,32);
+            spawn.setPosition(monster.x *32,800 - monster.y*32);
+            spawns.add(spawn);
+        }
+        items = map.placeItems(playerPos, difficulty);
 
         // load the images for the droplet and the bucket, 64x64 pixels each
         dropImage = new Texture(Gdx.files.internal("droplet.png"));
         bucketImage = new Texture(Gdx.files.internal("bucket.png"));
         exitPos = map.placeExit(playerPos);
+//        for(int i=0; i< map.initial_coordinates_monsters.length;i++){
+//            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
+//            spawn.setSize(32,32);
+//            spawn.setPosition(map.initial_coordinates_monsters[i][0] * 32, 800-map.initial_coordinates_monsters[i][1]*32);
+//            spawn.draw(game.batch);
+//            System.out.println("loop");
+//        }
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -115,8 +133,12 @@ public class GameScreen implements Screen {
         game.batch.begin();
         map.draw(game.batch);
         player.draw(game.batch);
-        for(Monster monster : monsters)
+        for(Sprite spawn: spawns){
+            spawn.draw(game.batch);
+        }
+        for(Monster monster : monsters) {
             monster.draw(game.batch);
+        }
         for (Item item : items)
             item.draw(game.batch);
         /*
