@@ -18,11 +18,11 @@ public class Item {
     public int x;
     public int y;
 
-    private boolean displayText;
-    private boolean pickable;
-    public boolean inInventory;
+    protected boolean displayText;
+    protected boolean pickable;
+    protected boolean inInventory;
 
-    private BitmapFont font;
+    protected BitmapFont font;
 
 
     public Item(String name, int effectValue, String effectType, int cost, int x, int y) {

@@ -129,7 +129,6 @@ public class Map {
     }
 
     public int[] findPlayerStart(){
-
         //TODO: Prendre en compte où le joueur est sorti du niveau précédent
 
         int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
@@ -189,6 +188,25 @@ public class Map {
         items.add(new Item("key", 0, "", 10, randomX, randomY));
 
         return items;
+
+    }
+
+    public ArrayList<Gold> placeGold(int[] playerPos, int difficulty){
+        //Potentiellement différents types de pièces ?
+        ArrayList<Gold> gold = new ArrayList<Gold>();
+
+        for(int i = 0; i < 5 * difficulty ; i++){
+            int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+            while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+                randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+                randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+            }
+            gold.add(new Gold(randomX, randomY));
+        }
+
+        return gold;
 
     }
 

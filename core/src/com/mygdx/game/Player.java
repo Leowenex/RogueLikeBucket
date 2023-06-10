@@ -22,6 +22,7 @@ public class Player {
     private boolean invulnerable;
     public boolean attacking;
     public ArrayList<Item> inventory;
+    public int gold;
     public Rectangle attackArea;
     private Texture heartTex;
 
@@ -35,6 +36,7 @@ public class Player {
         this.attackArea = new Rectangle();
         this.attackArea.width = 0;
         this.attackArea.height = 0;
+        this.gold = 0;
         this.attackArea.x = this.x;
         this.attackArea.y = this.y;
         this.health = 10;
@@ -126,6 +128,15 @@ public class Player {
     public boolean hasKey(){
         for(Item item : this.inventory){
             if(item.name.equals("key")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasGold(){
+        for(Item item : this.inventory){
+            if(item.name.equals("gold")){
                 return true;
             }
         }
