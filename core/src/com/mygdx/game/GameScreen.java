@@ -121,10 +121,10 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         */
         game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 600, 850);
-        Gold gold = new Gold(600,1200);
-        gold.sprite.setSize(32,32);
-        gold.sprite.setPosition(1300,850);
-        gold.sprite.draw(game.batch);
+        Sprite gold = new Sprite(new Texture(Gdx.files.internal( "gold.png")));
+        gold.setSize(32,32);
+        gold.setPosition(1300,850);
+        gold.draw(game.batch);
         game.font.draw(game.batch, " x " + player.gold, 1340,872);
 
         for (int i=0;i<9;i++){
