@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     Map map;
 
     Sound dropSound;
-    Music rainMusic;
+    Music music;
     OrthographicCamera camera;
 
     Player player;
@@ -64,8 +64,9 @@ public class GameScreen implements Screen {
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-        rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
-        rainMusic.setLooping(true);
+        music = Gdx.audio.newMusic(Gdx.files.internal("exploration.ogg"));
+        music.setLooping(true);
+        music.setVolume(0.3f);
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
@@ -170,16 +171,17 @@ public class GameScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
             game.setScreen(new MainMenuScreen(game));
-            rainMusic.stop();
+            music.stop();
         }
         if(Gdx.input.isKeyPressed(Keys.M)){
-            if(rainMusic.isPlaying())
-                rainMusic.pause();
+            if(music.isPlaying())
+                music.pause();
             else
-                rainMusic.play();
+                music.play();
         }
 
         if(player.getHealth()<=0){
+            music.stop();
             game.setScreen(new GameOverScreen(game));
         }
 
@@ -249,7 +251,7 @@ public class GameScreen implements Screen {
     public void show() {
         // start the playback of the background music
         // when the screen is shown
-        rainMusic.play();
+        music.play();
     }
 
     @Override
@@ -258,18 +260,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-        rainMusic.pause();
+        music.pause();
     }
 
     @Override
     public void resume() {
-        rainMusic.play();
+        music.play();
     }
 
     @Override
     public void dispose() {
         dropSound.dispose();
-        rainMusic.dispose();
+        music.dispose();
     }
 
 }
