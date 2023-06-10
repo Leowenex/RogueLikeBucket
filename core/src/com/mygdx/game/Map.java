@@ -179,6 +179,15 @@ public class Map {
             items.add(new Item("sword", 10, "Attack", 10, randomX, randomY));
         }
 
+        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+        }
+        items.add(new Item("key", 0, "", 10, randomX, randomY));
+
         return items;
 
     }

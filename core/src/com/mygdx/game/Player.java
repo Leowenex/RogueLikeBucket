@@ -122,4 +122,13 @@ public class Player {
         }
         return false;
     }
+
+    public boolean hasKey(){
+        for(Item item : this.inventory){
+            if(item.name.equals("key")){
+                return true;
+            }
+        }
+        return false;
+    }
 }

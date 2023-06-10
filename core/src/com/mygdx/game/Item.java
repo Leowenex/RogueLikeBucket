@@ -30,7 +30,7 @@ public class Item {
         this.effectValue = effectValue;
         this.effectType = effectType;
         this.cost = cost;
-        this.sprite = new Sprite(new Texture(Gdx.files.internal("sword.png")));
+        this.sprite = new Sprite(new Texture(Gdx.files.internal(name + ".png")));
         this.sprite.setSize(32, 32);
 
         this.x = x;

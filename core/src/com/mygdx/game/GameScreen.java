@@ -122,7 +122,7 @@ public class GameScreen implements Screen {
         }
 
         for(int i=0;i<player.inventory.size();i++){
-            player.inventory.get(i).sprite.setPosition(1308, 750 - i*90);
+            player.inventory.get(i).sprite.setPosition(1308, 758 - i*90);
             player.inventory.get(i).sprite.setSize(64,64);
             player.inventory.get(i).sprite.draw(game.batch);
         }
@@ -143,10 +143,19 @@ public class GameScreen implements Screen {
         }
 
 
-        game.batch.end();
         if(player.x == exitPos[0] && player.y == exitPos[1]){
-            this.loadNextMap();
+            if(player.hasKey()) {
+                for (int i = 0; i < player.inventory.size(); i++) {
+                    if (player.inventory.get(i).name.equals("key")) {
+                        player.inventory.remove(i);
+                    }
+                }
+                this.loadNextMap();
+            }else{
+                game.font.draw(game.batch, "Pick up the key to open the door ! " , exitPos[0]*32 - 80, 800 - exitPos[1]*32 + 50);
+            }
         }
+        game.batch.end();
 
         /*
         // process user input
