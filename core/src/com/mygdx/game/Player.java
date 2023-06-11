@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Player {
     public ArrayList<Item> inventory;
     public int gold;
     public Rectangle attackArea;
-    private Texture heartTex;
+    private final Texture heartTex;
 
     private long lastMoveTime;
 
@@ -40,7 +39,7 @@ public class Player {
         this.attackArea.x = this.x;
         this.attackArea.y = this.y;
         this.health = 10;
-        this.inventory = new ArrayList<Item>();
+        this.inventory = new ArrayList<>();
         this.invulnerable = false;
         this.attacking = false;
 
@@ -78,9 +77,7 @@ public class Player {
             this.sprite.setColor(0, 1, 0, 1);
             this.attackArea.width = 128;
             this.attackArea.height = 128;
-            CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(() -> {
-                this.attacking = false;
-            });
+            CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
         } else {
             this.sprite.setColor(1, 1, 1, 1);
             this.attackArea.width = 0;
@@ -109,9 +106,7 @@ public class Player {
             }
             this.invulnerable = true;
 
-            CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> {
-                this.invulnerable = false;
-            });
+            CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> this.invulnerable = false);
         }
 
     }
@@ -135,11 +130,6 @@ public class Player {
     }
 
     public boolean hasGold(){
-        for(Item item : this.inventory){
-            if(item.name.equals("gold")){
-                return true;
-            }
-        }
-        return false;
+        return this.gold > 0;
     }
 }

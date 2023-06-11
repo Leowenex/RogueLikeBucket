@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -11,13 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
     final GameLauncher game;
@@ -37,8 +30,6 @@ public class GameScreen implements Screen {
 
     ArrayList<Gold> coins;
 
-    long lastDropTime;
-
     int level;
 
     int[] exitPos;
@@ -54,7 +45,7 @@ public class GameScreen implements Screen {
 
 
         monsters = map.placeMonsters(playerPos, level);
-        spawns = new ArrayList<Sprite>();
+        spawns = new ArrayList<>();
         for(Monster monster : monsters){
             Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
             spawn.setSize(32,32);
@@ -74,15 +65,6 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
-    }
-
-    private void spawnRaindrop() {
-        Rectangle raindrop = new Rectangle();
-        raindrop.x = MathUtils.random(0, 800 - 64);
-        raindrop.y = 480;
-        raindrop.width = 64;
-        raindrop.height = 64;
-        lastDropTime = TimeUtils.nanoTime();
     }
 
     @Override
@@ -140,13 +122,6 @@ public class GameScreen implements Screen {
             player.inventory.get(i).sprite.draw(game.batch);
         }
 
-        /*
-        game.batch.draw(bucketImage, bucket.x, bucket.y, bucket.width, bucket.height, 0, 0, 64, 64, bucketMovingRight, bucketMovingDown);
-        for (Rectangle raindrop : raindrops) {
-            game.batch.draw(dropImage, raindrop.x, raindrop.y);
-        }
-         */
-
 
         player.update(map);
         for(Monster monster : monsters)
@@ -161,28 +136,13 @@ public class GameScreen implements Screen {
 
         if(player.x == exitPos[0] && player.y == exitPos[1]){
             if(player.hasKey()) {
-                for (int i = 0; i < player.inventory.size(); i++) {
-                    if (player.inventory.get(i).name.equals("key")) {
-                        player.inventory.remove(i);
-                    }
-                }
+                player.inventory.removeIf(item -> item.name.equals("key"));
                 this.loadNextMap();
             }else{
                 game.font.draw(game.batch, "Pick up the key to open the door ! " , exitPos[0]*32 - 80, 800 - exitPos[1]*32 + 50);
             }
         }
         game.batch.end();
-
-        /*
-        // process user input
-        if (Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3();
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
-            bucket.x = touchPos.x - 64 / 2;
-        }
-
-         */
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
             game.setScreen(new MainMenuScreen(game));
@@ -199,42 +159,6 @@ public class GameScreen implements Screen {
             music.stop();
             game.setScreen(new GameOverScreen(game));
         }
-
-        // make sure the bucket stays within the screen bounds
-        /*
-        if (bucket.x < 0)
-            bucket.x = 0;
-        if (bucket.x > 800 - 64)
-            bucket.x = 800 - 64;
-        */
-
-
-        // check if we need to create a new raindrop
-
-        /*
-        if (TimeUtils.nanoTime() - lastDropTime > 1000000000)
-            spawnRaindrop();
-
-         */
-
-        // move the raindrops, remove any that are beneath the bottom edge of
-        // the screen or that hit the bucket. In the later case we increase the
-        // value our drops counter and add a sound effect.
-
-        /*
-        Iterator<Rectangle> iter = raindrops.iterator();
-        while (false && iter.hasNext()) {
-            Rectangle raindrop = iter.next();
-            raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-            if (raindrop.y + 64 < 0)
-                iter.remove();
-            if (raindrop.overlaps(player.position)) {
-                dropsGathered++;
-                dropSound.play();
-                iter.remove();
-            }
-        }
-        */
     }
 
     public void loadNextMap(){
@@ -246,7 +170,7 @@ public class GameScreen implements Screen {
         player.x = playerPos[0];
         player.y = playerPos[1];
         monsters = map.placeMonsters(playerPos, level);
-        this.spawns = new ArrayList<Sprite>();
+        this.spawns = new ArrayList<>();
         for(Monster monster : monsters){
             Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
             spawn.setSize(32,32);

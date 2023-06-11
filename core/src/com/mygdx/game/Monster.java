@@ -1,11 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Monster {
@@ -31,7 +29,7 @@ public class Monster {
     }
 
     public void update(Player player) {
-        if(!this.alive){
+        if(!this.isAlive()){
             return;
         }
         if (TimeUtils.nanoTime() - lastMoveTime > 750000000) {
