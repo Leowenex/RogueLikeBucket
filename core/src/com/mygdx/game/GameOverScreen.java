@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -9,10 +10,16 @@ public class GameOverScreen implements Screen {
 
     final GameLauncher game;
 
+    final Music music;
+
     OrthographicCamera camera;
 
     public GameOverScreen(final GameLauncher game) {
         this.game = game;
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/CursedVillage.ogg"));
+        music.setLooping(true);
+        music.setVolume(0.5f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
@@ -21,7 +28,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
-
+        music.play();
     }
 
     @Override
