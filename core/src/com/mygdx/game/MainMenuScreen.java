@@ -109,12 +109,14 @@ public class MainMenuScreen implements Screen {
             }
         }
 
+        /*
         if (Gdx.input.isTouched()) {
             Vector2 touchPos = new Vector2();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY());
             game.setScreen(new GameScreen(game));
             dispose();
         }
+         */
     }
 
     @Override
