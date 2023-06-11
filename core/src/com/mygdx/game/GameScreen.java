@@ -37,34 +37,19 @@ public class GameScreen implements Screen {
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
-        level = 1;
-        map = new Map(40,25, level);
+        level = 0;
 
-        int[] playerPos = map.findPlayerStart();
-        player = new Player(playerPos[0], playerPos[1]);
+        player = new Player(0,0);
 
-
-        monsters = map.placeMonsters(playerPos, level);
-        spawns = new ArrayList<>();
-        for(Monster monster : monsters){
-            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
-            spawn.setSize(32,32);
-            spawn.setPosition(monster.x *32,800 - monster.y*32);
-            spawns.add(spawn);
-        }
-        items = map.placeItems(playerPos, level);
-        exitPos = map.placeExit(playerPos);
-        coins = map.placeGold(playerPos, level);
-
-        // load the drop sound effect and the rain background "music"
-        dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("exploration.ogg"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
         music.setLooping(true);
         music.setVolume(0.3f);
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
+
+        this.loadNextMap();
     }
 
     @Override
