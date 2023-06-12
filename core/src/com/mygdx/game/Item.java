@@ -42,7 +42,7 @@ public class Item {
         this.font = new BitmapFont();
     }
 
-    public void update(Player player) {
+    public void update(Player player, SpriteBatch batch) {
         if(!this.pickable){
             return;
         }
@@ -51,12 +51,24 @@ public class Item {
             displayText = true;
 
             if(Gdx.input.isKeyPressed(Input.Keys.P)){
-                player.inventory.add(this);
-                System.out.println("Item Collected");
-                this.x = -1000;
-                this.y = -1000;
-                this.pickable = false;
-                this.inInventory = true;
+                boolean ItemInInventory = false;
+                for (int i = 0; i < player.inventory.size(); i++) {
+                    if (player.inventory.get(i).name.equals(this.name)) {
+                        ItemInInventory = true;
+                    }
+                }
+                if(!ItemInInventory) {
+                    player.inventory.add(this);
+                    System.out.println("Item Collected");
+                    this.x = -1000;
+                    this.y = -1000;
+                    this.pickable = false;
+                    this.inInventory = true;
+                    this.displayText = false;
+                }else{
+                    this.font.draw(batch, "You already have this item in your inventory.", 580,870);
+                    this.displayText = false;
+                }
             }
         }else {
             displayText = false;

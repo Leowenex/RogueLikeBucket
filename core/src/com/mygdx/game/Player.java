@@ -111,6 +111,20 @@ public class Player {
 
     }
 
+    public Item dropItem(int i){
+        Item item = this.inventory.get(i);
+        if (TimeUtils.nanoTime() - lastMoveTime > 150000000) {
+            item = this.inventory.get(i);
+            item.x = this.x;
+            item.y = this.y;
+            item.pickable = true;
+            item.sprite.setSize(32, 32);
+            this.inventory.remove(i);
+            return item;
+        }
+        return item;
+    }
+
     public boolean hasSword(){
         for(Item item : this.inventory){
             if(item.name.equals("sword")){

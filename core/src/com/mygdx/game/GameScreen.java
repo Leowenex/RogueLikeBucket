@@ -107,12 +107,67 @@ public class GameScreen implements Screen {
             player.inventory.get(i).sprite.draw(game.batch);
         }
 
+        if(Gdx.input.isKeyPressed(Keys.NUM_1)){
+            if (player.inventory.size() > 0){
+                Item itemDropped  = player.dropItem(0);
+                items.add(itemDropped);
+            }
+        }
+
+        if(Gdx.input.isKeyPressed(Keys.NUM_2)){
+            if (player.inventory.size() > 1){
+                Item itemDropped  = player.dropItem(1);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_3)){
+            if (player.inventory.size() > 2){
+                Item itemDropped  = player.dropItem(2);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_4)){
+            if (player.inventory.size() > 3){
+                Item itemDropped  = player.dropItem(3);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_5)){
+            if (player.inventory.size() > 4){
+                Item itemDropped  = player.dropItem(4);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_6)){
+            if (player.inventory.size() > 5){
+                Item itemDropped  = player.dropItem(5);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_7)){
+            if (player.inventory.size() > 6){
+                Item itemDropped  = player.dropItem(6);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_8)){
+            if (player.inventory.size() > 7){
+                Item itemDropped  = player.dropItem(7);
+                items.add(itemDropped);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Keys.NUM_9)){
+            if (player.inventory.size() > 8){
+                Item itemDropped  = player.dropItem(8);
+                items.add(itemDropped);
+            }
+        }
 
         player.update(map);
         for(Monster monster : monsters)
             monster.update(player);
         for (Item item : items) {
-            item.update(player);
+            item.update(player, game.batch);
         }
         for(Gold coin : coins){
             coin.update(player);
@@ -127,6 +182,8 @@ public class GameScreen implements Screen {
                 game.font.draw(game.batch, "Pick up the key to open the door ! " , exitPos[0]*32 - 80, 800 - exitPos[1]*32 + 50);
             }
         }
+
+
         game.batch.end();
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
