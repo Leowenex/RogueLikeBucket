@@ -13,7 +13,7 @@ public class Map {
     public int width;
     public int height;
 
-    public Map(int width, int height, int difficulty) {
+    public Map(int width, int height, int difficulty, int[] playerPos) {
         this.width = width;
         this.height = height;
         tiles = new Tile[width][height];
@@ -37,6 +37,7 @@ public class Map {
                 tiles[x][y] = Math.random() < 0.3 ? new Tile(Materials.WALL, new Texture(Gdx.files.internal("Wall.png"))) : new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png")));
             }
         }
+
 
         //Elimination des murs isolés
 
@@ -83,6 +84,8 @@ public class Map {
                 }
             }
         }
+
+        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png")));
 
 
         // METHODE DU COURS

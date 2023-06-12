@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -207,8 +208,15 @@ public class GameScreen implements Screen {
 
         level++;
 
-        map = new Map(40,25, level);
-        int[] playerPos = map.findPlayerStart();
+        int[] playerPos = new int[2];
+        if(level == 1) {
+            playerPos[0] = ThreadLocalRandom.current().nextInt(1, 39);
+            playerPos[1] = ThreadLocalRandom.current().nextInt(1, 24);
+        }
+        else{
+            playerPos = exitPos;
+        }
+        map = new Map(40,25, level, playerPos);
         player.x = playerPos[0];
         player.y = playerPos[1];
         monsters = map.placeMonsters(playerPos, level);
