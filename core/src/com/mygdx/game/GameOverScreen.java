@@ -120,7 +120,9 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        music.dispose();
+        background.dispose();
+        shapeRenderer.dispose();
     }
 
 }
