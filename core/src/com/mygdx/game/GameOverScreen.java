@@ -1,10 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameOverScreen implements Screen {
 
@@ -12,10 +16,25 @@ public class GameOverScreen implements Screen {
 
     final Music music;
 
+    final Texture background;
+
+    final ShapeRenderer shapeRenderer;
+
+    long lastSwitch;
+
     OrthographicCamera camera;
+
+    int selected;
 
     public GameOverScreen(final GameLauncher game) {
         this.game = game;
+
+        background = new Texture(Gdx.files.internal("game-over-bg.png"));
+        shapeRenderer = new ShapeRenderer();
+
+        selected = 0;
+
+        lastSwitch = TimeUtils.nanoTime();
 
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/CursedVillage.ogg"));
         music.setLooping(true);
@@ -39,13 +58,43 @@ public class GameOverScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Game Over !! ", 100, 150);
-        game.font.draw(game.batch, "You were killed by the monster, click anywhere to restart", 100, 100);
+        game.batch.draw(background, 0, 0);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
+        switch (selected) {
+            case 0:
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(1, 0, 0, 1);
+                shapeRenderer.rect(405, 245, 800, 100);
+                shapeRenderer.end();
+                break;
+            case 1:
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(1, 0, 0, 1);
+                shapeRenderer.rect(620, 80, 365, 100);
+                shapeRenderer.end();
+                break;
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP) && TimeUtils.nanoTime() - lastSwitch > 150000000){
+            selected = (selected + 1 ) % 2;
+            lastSwitch = TimeUtils.nanoTime();
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && TimeUtils.nanoTime() - lastSwitch > 150000000){
+            selected = (selected + 1) % 2;
+            lastSwitch = TimeUtils.nanoTime();
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.nanoTime() - lastSwitch > 150000000) {
+            switch (selected) {
+                case 0:
+                    game.setScreen(new GameScreen(game));
+                    dispose();
+                    break;
+                case 1:
+                    Gdx.app.exit();
+                    break;
+            }
         }
     }
 
