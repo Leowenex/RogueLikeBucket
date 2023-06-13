@@ -180,7 +180,10 @@ public class GameScreen implements Screen {
                 player.inventory.removeIf(item -> item.name.equals("key"));
                 this.loadNextMap();
             }else{
-                game.font.draw(game.batch, "Pick up the key to open the door ! " , exitPos[0]*32 - 80, 800 - exitPos[1]*32 + 50);
+                if (exitPos[0]*32 - 80 >= 0 )
+                    game.font.draw(game.batch, "Pick up the key to open the door ! " , exitPos[0]*32 - 80, 800 - exitPos[1]*32 + 50);
+                else
+                    game.font.draw(game.batch, "Pick up the key to open the door ! " , 0, 800 - exitPos[1]*32 + 50);
             }
         }
 
