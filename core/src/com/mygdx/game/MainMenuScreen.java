@@ -94,13 +94,11 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.nanoTime() - lastSwitch > 150000000) {
             switch (selected) {
                 case 0:
-                    System.out.println("Creating a new save");
                     game.setScreen(new GameScreen(game));
                     dispose();
                     break;
                 case 1:
-                    System.out.println("Loading the save");
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new GameScreen(game, SaveManager.loadCharacter()));
                     dispose();
                     break;
                 case 2:

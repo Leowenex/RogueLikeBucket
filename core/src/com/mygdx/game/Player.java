@@ -17,7 +17,7 @@ public class Player extends Entity {
 
     private static final int DUNGEON_VIEWRANGE = 20;
 
-    private int health;
+    public int health;
     private boolean invulnerable;
     public boolean attacking;
     public boolean hasKey;

@@ -54,6 +54,21 @@ public class GameScreen implements Screen {
         this.loadNextMap();
     }
 
+    public GameScreen(final GameLauncher game, Player player){
+        this.game = game;
+        this.player = player;
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
+        music.setLooping(true);
+        music.setVolume(0.3f);
+
+        // create the camera and the SpriteBatch
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1600, 900);
+
+        this.loadNextMap();
+    }
+
     @Override
     public void render(float delta) {
         // clear the screen with a dark blue color. The
@@ -199,6 +214,7 @@ public class GameScreen implements Screen {
         game.batch.end();
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+            SaveManager.saveCharacter(player);
             game.setScreen(new MainMenuScreen(game));
             this.dispose();
         }
@@ -230,7 +246,7 @@ public class GameScreen implements Screen {
         else{
             playerPos = exitPos;
         }
-        map = new Map(40,25, level, playerPos);
+        map = new Map(40,25, playerPos);
         player.x = playerPos[0];
         player.y = playerPos[1];
         monsters = map.placeMonsters(playerPos, level);

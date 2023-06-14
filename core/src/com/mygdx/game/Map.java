@@ -16,7 +16,7 @@ public class Map {
     public String[] armors = {"chestplate","glove","boots"};
 
 
-    public Map(int width, int height, int difficulty, int[] playerPos) {
+    public Map(int width, int height, int[] playerPos) {
         this.width = width;
         this.height = height;
 
@@ -153,17 +153,11 @@ public class Map {
 
     public ArrayList<Monster> placeMonsters(int[] playerPos, int difficulty){
         //TODO: Prendre en compte les futur différents types de monstres
-        ArrayList<Monster> monsters = new ArrayList<Monster>();
+        ArrayList<Monster> monsters = new ArrayList<>();
 
         for(int i = 0; i <difficulty; i++){
-            int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-            while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-                randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-                randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-            }
-            monsters.add(new Monster(randomX, randomY));
+            int[] pos = findRandomPos(playerPos);
+            monsters.add(new Monster(pos[0],pos[1]));
         }
 
         return monsters;
@@ -172,34 +166,24 @@ public class Map {
 
     public ArrayList<Item> placeItems(int[] playerPos, int difficulty){
         //TODO: Faire en sorte que la porte apparaisse loin du joueur
-        ArrayList<Item> items = new ArrayList<Item>();
+        ArrayList<Item> items = new ArrayList<>();
+
+        int[] pos;
 
         // weapon
-        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-        }
+        pos = findRandomPos(playerPos);
 
         int randomidx = ThreadLocalRandom.current().nextInt(0, 2);
         System.out.println(randomidx);
         if(weapons[randomidx].equals("sword"))
-            items.add(new Weapon(weapons[randomidx], 10, randomX, randomY,1));
+            items.add(new Weapon(weapons[randomidx], 10, pos[0], pos[1],1));
         else
-            items.add(new Weapon(weapons[randomidx], 10, randomX, randomY,2));
+            items.add(new Weapon(weapons[randomidx], 10, pos[0], pos[1],2));
 
         //armor
-        randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-        randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-        }
+        pos = findRandomPos(playerPos);
         randomidx = ThreadLocalRandom.current().nextInt(0, 3);
-        items.add(new Item(armors[randomidx], 25, randomX, randomY));
+        items.add(new Item(armors[randomidx], 25, pos[0], pos[1]));
 
         return items;
 
@@ -207,30 +191,17 @@ public class Map {
 
     public Key placeKey(int[] playerPos){
         // key
-        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-        }
-
-        return new Key(randomX, randomY);
+        int[] pos = findRandomPos(playerPos);
+        return new Key(pos[0], pos[1]);
     }
 
     public ArrayList<Gold> placeGold(int[] playerPos, int difficulty){
         //Potentiellement différents types de pièces ?
-        ArrayList<Gold> gold = new ArrayList<Gold>();
+        ArrayList<Gold> gold = new ArrayList<>();
 
         for(int i = 0; i < 5 * difficulty ; i++){
-            int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-            while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-                randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-                randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-            }
-            gold.add(new Gold(randomX, randomY));
+            int [] pos = findRandomPos(playerPos);
+            gold.add(new Gold(pos[0], pos[1]));
         }
 
         return gold;
@@ -239,20 +210,20 @@ public class Map {
 
     public int[] placeExit(int[] playerPos){
         //TODO: Faire en sorte que la porte apparaisse loin du joueur
+
+        return findRandomPos(playerPos);
+
+    }
+
+    public int[] findRandomPos(int[] playerPos){
+
         int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
         int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-//        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-//            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-//            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-//        }
 
         while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (Math.abs(randomX - playerPos[0]) + Math.abs(randomY - playerPos[1]) <20)){
             randomX = ThreadLocalRandom.current().nextInt(1, width-1);
             randomY = ThreadLocalRandom.current().nextInt(1, height-1);
         }
-
-        tiles[randomX][randomY].texture = new Texture(Gdx.files.internal("porte.png"));
 
         return new int[]{randomX, randomY};
 

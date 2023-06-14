@@ -12,7 +12,6 @@ public class Entity {
     boolean dynamic_light;
 
     Sprite sprite;
-
     String name;
 
     public Entity(int x, int y, String name){
