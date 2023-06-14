@@ -21,4 +21,8 @@ public class Tile {
         batch.draw(texture, x, y);
         batch.setColor(1, 1, 1, 1);
     }
+
+    public void dispose() {
+        texture.dispose();
+    }
 }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,7 +18,6 @@ public class GameScreen implements Screen {
 
     Map map;
 
-    Sound dropSound;
     Music music;
     OrthographicCamera camera;
 
@@ -196,7 +194,7 @@ public class GameScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
             game.setScreen(new MainMenuScreen(game));
-            music.stop();
+            this.dispose();
         }
         if(Gdx.input.isKeyPressed(Keys.M)){
             if(music.isPlaying())
@@ -206,14 +204,16 @@ public class GameScreen implements Screen {
         }
 
         if(player.getHealth()<=0){
-            music.stop();
             game.setScreen(new GameOverScreen(game));
+            this.dispose();
         }
     }
 
     public void loadNextMap(){
 
         player.hasKey = false;
+        if(map!=null)
+            map.dispose();
         level++;
 
         int[] playerPos = new int[2];
@@ -268,8 +268,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        dropSound.dispose();
         music.dispose();
+        map.dispose();
+        player.dispose();
+        for(Monster monster : monsters)
+            monster.dispose();
+        for (Item item : items)
+            item.dispose();
+        for (Gold coin : coins)
+            coin.dispose();
     }
 
 }

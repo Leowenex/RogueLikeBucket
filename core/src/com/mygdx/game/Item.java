@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Item extends Entity{
 
     public int cost;
-
     protected boolean displayText;
     protected boolean pickable;
 

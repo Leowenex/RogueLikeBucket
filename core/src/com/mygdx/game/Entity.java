@@ -27,4 +27,8 @@ public class Entity {
         this.sprite.setColor(1, 1, 1, Player.computeLight(this.x, this.y));
         this.sprite.draw(batch);
     }
+
+    public void dispose() {
+        this.sprite.getTexture().dispose();
+    }
 }

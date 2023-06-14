@@ -153,6 +153,12 @@ public class Player extends Entity {
         return this.gold > 0;
     }
 
+    public void dispose(){
+        this.sprite.getTexture().dispose();
+        this.heartTex.dispose();
+        this.inventory.forEach(Item::dispose);
+    }
+
     public static float computeLight(int x, int y){
         int player_x = Player.player.x;
         int player_y = Player.player.y;

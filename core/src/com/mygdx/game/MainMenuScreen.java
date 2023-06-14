@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -95,10 +94,12 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && TimeUtils.nanoTime() - lastSwitch > 150000000) {
             switch (selected) {
                 case 0:
+                    System.out.println("Creating a new save");
                     game.setScreen(new GameScreen(game));
                     dispose();
                     break;
                 case 1:
+                    System.out.println("Loading the save");
                     game.setScreen(new GameScreen(game));
                     dispose();
                     break;
@@ -107,15 +108,6 @@ public class MainMenuScreen implements Screen {
                     break;
             }
         }
-
-        /*
-        if (Gdx.input.isTouched()) {
-            Vector2 touchPos = new Vector2();
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY());
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
-         */
     }
 
     @Override
