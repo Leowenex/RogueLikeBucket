@@ -14,7 +14,7 @@ public class Gold extends Entity{
         if(!this.pickable){
             return;
         }
-        if(player.x - this.x == 0 && player.y - this.y == 0) {
+        if(player.x == this.x && player.y == this.y) {
                 player.gold += 1;
                 System.out.println("Gold Collected");
                 this.x = -1000;

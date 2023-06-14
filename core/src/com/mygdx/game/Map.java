@@ -201,18 +201,21 @@ public class Map {
         randomidx = ThreadLocalRandom.current().nextInt(0, 3);
         items.add(new Item(armors[randomidx], 25, randomX, randomY));
 
+        return items;
+
+    }
+
+    public Key placeKey(int[] playerPos){
         // key
-        randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-        randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
 
         while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
             randomX = ThreadLocalRandom.current().nextInt(1, width-1);
             randomY = ThreadLocalRandom.current().nextInt(1, height-1);
         }
-        items.add(new Item("key", 0, randomX, randomY));
 
-        return items;
-
+        return new Key(randomX, randomY);
     }
 
     public ArrayList<Gold> placeGold(int[] playerPos, int difficulty){

@@ -28,16 +28,6 @@ public class Item extends Entity{
             displayText = true;
 
             if(Gdx.input.isKeyPressed(Input.Keys.P)){
-                if(this.name.equals("key")){
-                    this.x = 39;
-                    this.y = -1;
-                    this.dynamic_light = false;
-                    this.pickable = false;
-                    this.displayText = false;
-                    this.sprite.setSize(40,40);
-                    this.sprite.setPosition(1240,850);
-                    player.hasKey = true;
-                }else{
                     boolean ItemInInventory = false;
                     if(this.name.equals("sword")||this.name.equals("axe")) {
                         for (int i = 0; i < player.inventory.size(); i++) {
@@ -65,7 +55,6 @@ public class Item extends Entity{
                         font.draw(batch, "You already have this item or an item of the same type in your inventory.", 550,870);
                     }
                     this.displayText = false;
-                }
             }
         }else {
             displayText = false;

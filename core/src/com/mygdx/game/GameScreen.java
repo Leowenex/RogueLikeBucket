@@ -30,6 +30,8 @@ public class GameScreen implements Screen {
 
     ArrayList<Gold> coins;
 
+    Key key;
+
     int level;
 
     int[] exitPos;
@@ -91,6 +93,9 @@ public class GameScreen implements Screen {
         for (Gold coin : coins){
             coin.draw(game.batch);
         }
+
+        key.draw(game.batch);
+
         /*
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         */
@@ -179,6 +184,7 @@ public class GameScreen implements Screen {
         for(Gold coin : coins){
             coin.update(player);
         }
+        key.update(player);
 
 
         if(player.x == exitPos[0] && player.y == exitPos[1]){
@@ -237,6 +243,7 @@ public class GameScreen implements Screen {
         }
         items = map.placeItems(playerPos, level);
         coins = map.placeGold(playerPos, level);
+        key = map.placeKey(playerPos);
 
         exitPos = map.placeExit(playerPos);
     }
@@ -277,6 +284,7 @@ public class GameScreen implements Screen {
             item.dispose();
         for (Gold coin : coins)
             coin.dispose();
+        key.dispose();
     }
 
 }
