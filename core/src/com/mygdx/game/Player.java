@@ -18,6 +18,7 @@ public class Player extends Entity {
     private static final int DUNGEON_VIEWRANGE = 20;
 
     public int health;
+    public int mana;
     private boolean invulnerable;
     public boolean attacking;
     public boolean hasKey;
@@ -37,6 +38,7 @@ public class Player extends Entity {
         this.attackArea.x = this.x;
         this.attackArea.y = this.y;
         this.health = 10;
+        this.mana=10;
         this.inventory = new ArrayList<>();
         this.invulnerable = false;
         this.attacking = false;
