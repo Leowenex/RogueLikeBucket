@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
 
     ArrayList<Sprite> spawns;
 
-    ArrayList<Item> coins;
+    ArrayList<Gold> coins;
 
     NPC npc ;
 
@@ -87,7 +87,7 @@ public class GameScreen implements Screen {
         for (Item item : items)
             item.draw(game.batch);
 
-        for (Item coin : coins){
+        for (Gold coin : coins){
             coin.draw(game.batch);
         }
         /*
@@ -175,8 +175,8 @@ public class GameScreen implements Screen {
         for (Item item : items) {
             item.update(player, game.batch);
         }
-        for(Item coin : coins){
-            coin.update(player,game.batch);
+        for(Gold coin : coins){
+            coin.update(player);
         }
 
 

@@ -29,14 +29,7 @@ public class Item extends Entity{
         if(!this.pickable){
             return;
         }
-        if(this.name.equals("gold") && player.x - this.x == 0 && player.y - this.y == 0) {
-            player.gold += 1;
-            System.out.println("Gold Collected");
-            this.x = -1000;
-            this.y = -1000;
-            this.pickable = false;
-        }
-        if(!this.name.equals("gold") && Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
+        if( Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
             displayText = true;
 
             if(Gdx.input.isKeyPressed(Input.Keys.P)){

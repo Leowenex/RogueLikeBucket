@@ -85,7 +85,7 @@ public class Map {
             }
         }
 
-        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png")));
+        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
 
 
         // METHODE DU COURS
@@ -194,9 +194,9 @@ public class Map {
 
     }
 
-    public ArrayList<Item> placeGold(int[] playerPos, int difficulty){
+    public ArrayList<Gold> placeGold(int[] playerPos, int difficulty){
         //Potentiellement différents types de pièces ?
-        ArrayList<Item> gold = new ArrayList<Item>();
+        ArrayList<Gold> gold = new ArrayList<Gold>();
 
         for(int i = 0; i < 5 * difficulty ; i++){
             int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
@@ -206,7 +206,7 @@ public class Map {
                 randomX = ThreadLocalRandom.current().nextInt(1, width-1);
                 randomY = ThreadLocalRandom.current().nextInt(1, height-1);
             }
-            gold.add(new Item("gold",1,randomX, randomY));
+            gold.add(new Gold(randomX, randomY));
         }
 
         return gold;
@@ -218,7 +218,12 @@ public class Map {
         int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
         int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
 
-        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+//        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+//            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+//            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+//        }
+
+        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (Math.abs(randomX - playerPos[0]) + Math.abs(randomY - playerPos[1]) <20)){
             randomX = ThreadLocalRandom.current().nextInt(1, width-1);
             randomY = ThreadLocalRandom.current().nextInt(1, height-1);
         }

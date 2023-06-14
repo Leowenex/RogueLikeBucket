@@ -145,6 +145,15 @@ public class Player extends Entity {
         return false;
     }
 
+    public boolean isInInventory(String name){
+        for(Item i : this.inventory){
+            if(i.name.equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean hasGold(){
         return this.gold > 0;
     }
