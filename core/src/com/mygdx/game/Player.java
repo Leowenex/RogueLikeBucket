@@ -17,6 +17,7 @@ public class Player extends Entity {
     private int health;
     private boolean invulnerable;
     public boolean attacking;
+    public boolean hasKey;
     public ArrayList<Item> inventory;
     public int gold;
     public Rectangle attackArea;
@@ -36,6 +37,7 @@ public class Player extends Entity {
         this.inventory = new ArrayList<>();
         this.invulnerable = false;
         this.attacking = false;
+        this.hasKey = false;
         this.heartTex = new Texture(Gdx.files.internal("heart.png"));
     }
 
@@ -75,7 +77,7 @@ public class Player extends Entity {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.hasSword()) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.isInInventory("sword")) {
             this.attacking = true;
             this.sprite.setColor(0, 1, 0, 1);
             this.attackArea.width = 128;
@@ -125,24 +127,6 @@ public class Player extends Entity {
             return item;
         }
         return item;
-    }
-
-    public boolean hasSword(){
-        for(Item item : this.inventory){
-            if(item.name.equals("sword")){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasKey(){
-        for(Item item : this.inventory){
-            if(item.name.equals("key")){
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean isInInventory(String name){

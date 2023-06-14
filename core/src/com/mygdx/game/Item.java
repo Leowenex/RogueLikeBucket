@@ -29,26 +29,36 @@ public class Item extends Entity{
         if(!this.pickable){
             return;
         }
-        if( Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
+        if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
             displayText = true;
 
             if(Gdx.input.isKeyPressed(Input.Keys.P)){
-                boolean ItemInInventory = false;
-                for (int i = 0; i < player.inventory.size(); i++) {
-                    if (player.inventory.get(i).name.equals(this.name)) {
-                        ItemInInventory = true;
-                    }
-                }
-                if(!ItemInInventory) {
-                    player.inventory.add(this);
-                    System.out.println("Item Collected");
-                    this.x = -1000;
-                    this.y = -1000;
+                if(this.name.equals("key")){
+                    this.x = 39;
+                    this.y = -1;
                     this.pickable = false;
                     this.displayText = false;
+                    this.sprite.setSize(40,40);
+                    this.sprite.setPosition(1240,850);
+                    player.hasKey = true;
                 }else{
-                    this.font.draw(batch, "You already have this item in your inventory.", 580,870);
-                    this.displayText = false;
+                    boolean ItemInInventory = false;
+                    for (int i = 0; i < player.inventory.size(); i++) {
+                        if (player.inventory.get(i).name.equals(this.name)) {
+                            ItemInInventory = true;
+                        }
+                    }
+                    if(!ItemInInventory) {
+                        player.inventory.add(this);
+                        System.out.println("Item Collected");
+                        this.x = -1000;
+                        this.y = -1000;
+                        this.pickable = false;
+                        this.displayText = false;
+                    }else{
+                        this.font.draw(batch, "You already have this item in your inventory.", 580,870);
+                        this.displayText = false;
+                    }
                 }
             }
         }else {

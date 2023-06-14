@@ -31,8 +31,6 @@ public class GameScreen implements Screen {
 
     ArrayList<Gold> coins;
 
-    NPC npc ;
-
     int level;
 
     int[] exitPos;
@@ -41,8 +39,6 @@ public class GameScreen implements Screen {
         this.game = game;
 
         level = 0;
-
-        npc=new NPC(5,5,"traveler","traveler");
 
         player = new Player(0,0);
 
@@ -80,7 +76,6 @@ public class GameScreen implements Screen {
             spawn.draw(game.batch);
         }
         player.draw(game.batch);
-        npc.draw(game.batch);
         for(Monster monster : monsters) {
             monster.draw(game.batch);
         }
@@ -100,16 +95,16 @@ public class GameScreen implements Screen {
         gold.draw(game.batch);
         game.font.draw(game.batch, " x " + player.gold, 1340,872);
 
-        for (int i=0;i<9;i++){
+        for (int i=0;i<10;i++){
             Sprite inventory = new Sprite(new Texture(Gdx.files.internal("inventory_case.png")));
-            inventory.setSize(80,80);
-            inventory.setPosition(1300, 750 - i*90);
+            inventory.setSize(70,70);
+            inventory.setPosition(1300, 760 - i*80);
             inventory.draw(game.batch);
         }
 
         for(int i=0;i<player.inventory.size();i++){
-            player.inventory.get(i).sprite.setPosition(1308, 758 - i*90);
-            player.inventory.get(i).sprite.setSize(64,64);
+            player.inventory.get(i).sprite.setPosition(1308, 766 - i*80);
+            player.inventory.get(i).sprite.setSize(54,54);
             player.inventory.get(i).sprite.draw(game.batch);
         }
 
@@ -181,8 +176,7 @@ public class GameScreen implements Screen {
 
 
         if(player.x == exitPos[0] && player.y == exitPos[1]){
-            if(player.hasKey()) {
-                player.inventory.removeIf(item -> item.name.equals("key"));
+            if(player.hasKey) {
                 this.loadNextMap();
             }else{
                 if (exitPos[0]*32 - 80 >= 0 )
@@ -214,6 +208,7 @@ public class GameScreen implements Screen {
 
     public void loadNextMap(){
 
+        player.hasKey = false;
         level++;
 
         int[] playerPos = new int[2];
