@@ -21,6 +21,8 @@ public class SaveManager {
         Preferences prefs = Gdx.app.getPreferences("Character");
         Player player = new Player(0,0);
         player.health = prefs.getInteger("health");
+        if(player.health <= 0)
+            return new Player(2,2);
         player.gold = prefs.getInteger("gold");
         String[] inventory = prefs.getString("inventory").split(",");
         for(String itemName : inventory){
@@ -32,9 +34,12 @@ public class SaveManager {
 
     public static void insertItemName(Player player, String itemName){
 
-        Item item;
+        Item item = null;
 
         switch(itemName){
+            case "sword":
+                item = new Weapon("sword", 5, 0, 0,1);
+                break;
             case "axe":
                 item = new Weapon("axe", 10, 0, 0,2);
                 break;
@@ -53,9 +58,9 @@ public class SaveManager {
             case "mana_potion":
                 item = new Item("mana_potion", 5, 0, 0);
                 break;
-            default:
-                item = new Weapon("sword", 5, 0, 0,1);
         }
+        if(item == null)
+            return;
 
         item.pickable = false;
         item.dynamic_light = false;

@@ -90,6 +90,14 @@ public class Map {
             }
         }
 
+        //Elimination des zones de murs autour du joueur
+        for(int i = playerPos[0]-1; i<playerPos[0]+2; i++){
+            for(int j = playerPos[1]-1; j< playerPos[1]+2; j++){
+                if(i!=0 && i!= width-1 && j!=0 && j!= height-1) {
+                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
+                }
+            }
+        }
         tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
 
 
@@ -210,8 +218,9 @@ public class Map {
 
     public int[] placeExit(int[] playerPos){
         //TODO: Faire en sorte que la porte apparaisse loin du joueur
-
-        return findRandomPos(playerPos);
+        int[] pos = findRandomPos(playerPos);
+        tiles[pos[0]][pos[1]].texture = new Texture(Gdx.files.internal("porte.png"));
+        return pos;
 
     }
 
@@ -224,7 +233,6 @@ public class Map {
             randomX = ThreadLocalRandom.current().nextInt(1, width-1);
             randomY = ThreadLocalRandom.current().nextInt(1, height-1);
         }
-
         return new int[]{randomX, randomY};
 
     }
