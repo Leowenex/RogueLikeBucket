@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
             monster.draw(game.batch);
         }
         for (Item item : items)
-            item.draw(game.batch);
+            item.draw(game.batch, game.font);
 
         for (Gold coin : coins){
             coin.draw(game.batch);
@@ -176,7 +176,7 @@ public class GameScreen implements Screen {
         for(Monster monster : monsters)
             monster.update(player);
         for (Item item : items) {
-            item.update(player, game.batch);
+            item.update(player, game.batch, game.font);
         }
         for(Gold coin : coins){
             coin.update(player);
@@ -187,10 +187,7 @@ public class GameScreen implements Screen {
             if(player.hasKey) {
                 this.loadNextMap();
             }else{
-                if (exitPos[0]*32 - 80 >= 0 )
-                    game.font.draw(game.batch, "Pick up the key to open the door ! " , exitPos[0]*32 - 80, 800 - exitPos[1]*32 + 50);
-                else
-                    game.font.draw(game.batch, "Pick up the key to open the door ! " , 0, 800 - exitPos[1]*32 + 50);
+                game.font.draw(game.batch, "Pick up the key to open the door ! ", Math.max(exitPos[0] * 32 - 80, 0), 800 - exitPos[1] * 32 + 50);
             }
         }
 

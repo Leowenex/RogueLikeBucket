@@ -11,7 +11,6 @@ public class Item extends Entity{
 
     protected boolean displayText;
     protected boolean pickable;
-    protected BitmapFont font;
 
 
     public Item(String name, int cost, int x, int y) {
@@ -20,10 +19,9 @@ public class Item extends Entity{
         this.cost = cost;
         this.pickable=true;
         this.displayText=true;
-        this.font = new BitmapFont();
     }
 
-    public void update(Player player, SpriteBatch batch) {
+    public void update(Player player, SpriteBatch batch, BitmapFont font) {
         if(!this.pickable){
             return;
         }
@@ -44,6 +42,7 @@ public class Item extends Entity{
                     for (int i = 0; i < player.inventory.size(); i++) {
                         if (player.inventory.get(i).name.equals(this.name)) {
                             ItemInInventory = true;
+                            break;
                         }
                     }
                     if(!ItemInInventory) {
@@ -52,11 +51,10 @@ public class Item extends Entity{
                         this.x = -1000;
                         this.y = -1000;
                         this.pickable = false;
-                        this.displayText = false;
                     }else{
-                        this.font.draw(batch, "You already have this item in your inventory.", 580,870);
-                        this.displayText = false;
+                        font.draw(batch, "You already have this item in your inventory.", 580,870);
                     }
+                    this.displayText = false;
                 }
             }
         }else {
@@ -64,12 +62,12 @@ public class Item extends Entity{
         }
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, BitmapFont font ) {
         this.sprite.setPosition(x * 32, 800 - y*32);
         this.sprite.setColor(1,1,1,Player.computeLight(this.x, this.y));
         this.sprite.draw(batch);
         if(this.displayText){
-            this.font.draw(batch, this.name + " : Press P to pickup", x * 32, 800 - y*32 + 64);
+            font.draw(batch, this.name + " : Press P to pickup", x * 32, 800 - y*32 + 64);
         }
     }
 }
