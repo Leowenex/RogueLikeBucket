@@ -1,26 +1,13 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+public class Gold extends Entity{
 
-public class Gold{
-
-    public Sprite sprite;
-    public int x;
-    public int y;
     public boolean pickable;
-    protected BitmapFont font;
 
     public Gold(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.sprite = new Sprite(new Texture(Gdx.files.internal( "gold.png")));
+        super(x, y, "gold");
         this.sprite.setSize(26,26);
         this.pickable = true;
-        this.font = new BitmapFont();
     }
 
     public void update(Player player) {
@@ -34,12 +21,6 @@ public class Gold{
                 this.y = -1000;
                 this.pickable = false;
         }
-    }
-
-    public void draw(SpriteBatch batch) {
-        this.sprite.setPosition(this.x * 32 + 3, 800 - this.y*32 + 3);
-        this.sprite.setColor(1,1,1, Player.computeLight(this.x, this.y));
-        this.sprite.draw(batch);
     }
 
 }
