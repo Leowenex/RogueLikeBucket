@@ -2,9 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Item extends Entity{
@@ -63,14 +61,6 @@ public class Item extends Entity{
             }
         }else {
             displayText = false;
-        }
-    }
-
-    public void draw(SpriteBatch batch, int i) {
-        this.sprite.setPosition(this.x * 32, 800 - this.y*32);
-        this.sprite.draw(batch);
-        if(this.displayText){
-            this.font.draw(batch, this.name + " : Press P to pickup", this.x * 32, 800 - this.y*32 + 64);
         }
     }
 
