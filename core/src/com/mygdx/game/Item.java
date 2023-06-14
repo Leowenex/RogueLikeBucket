@@ -66,11 +66,20 @@ public class Item extends Entity{
         }
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, int i) {
         this.sprite.setPosition(this.x * 32, 800 - this.y*32);
         this.sprite.draw(batch);
         if(this.displayText){
             this.font.draw(batch, this.name + " : Press P to pickup", this.x * 32, 800 - this.y*32 + 64);
+        }
+    }
+
+    public void draw(SpriteBatch batch) {
+        this.sprite.setPosition(x * 32, 800 - y*32);
+        this.sprite.setColor(1,1,1,Player.computeLight(this.x, this.y));
+        this.sprite.draw(batch);
+        if(this.displayText){
+            this.font.draw(batch, this.name + " : Press P to pickup", x * 32, 800 - y*32 + 64);
         }
     }
 }

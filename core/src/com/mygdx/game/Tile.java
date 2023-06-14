@@ -23,6 +23,12 @@ public class Tile {
     public void draw(SpriteBatch batch, int x, int y) {
         batch.draw(texture, x, y);
         //this.font.draw(batch, "x = "+x+"; y = "+ y, x, y);
+    }
 
+    public void draw(SpriteBatch batch, int x, int y, float alpha) {
+        batch.setColor(1, 1, 1, alpha);
+        batch.draw(texture, x, y);
+        batch.setColor(1, 1, 1, 1);
+        //this.font.draw(batch, "x = "+x+"; y = "+ y, x, y);
     }
 }

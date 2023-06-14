@@ -234,10 +234,20 @@ public class Map {
 
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, int a) {
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                tiles[i][j].draw(batch, i * 32, 800-j * 32);
+                tiles[i][j].draw(batch, i * 32, 800 - j * 32);
+            }
+        }
+    }
+
+    public void draw(SpriteBatch batch) {
+        float alpha;
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++) {
+                    alpha = Player.computeLight(i, j);
+                    tiles[i][j].draw(batch, i * 32, 800 - j * 32, alpha);
             }
         }
     }

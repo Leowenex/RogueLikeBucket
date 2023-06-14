@@ -11,6 +11,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
@@ -60,6 +61,13 @@ public class GameScreen implements Screen {
         // blue and alpha component in the range [0,1]
         // of the color to be used to clear the screen.
         ScreenUtils.clear(0, 0, 0.2f, 1);
+
+        // We add a black rectangle to serve as the map background
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 0, 0, 0);
+        shapeRenderer.rect(0, 32, 1280, 800);
+        shapeRenderer.end();
 
         // tell the camera to update its matrices.
         camera.update();

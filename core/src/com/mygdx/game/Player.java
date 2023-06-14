@@ -14,6 +14,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Player extends Entity {
 
+    private static Player player;
+
+    private static final int DUNGEON_VIEWRANGE = 20;
+
     private int health;
     private boolean invulnerable;
     public boolean attacking;
@@ -39,6 +43,8 @@ public class Player extends Entity {
         this.attacking = false;
         this.hasKey = false;
         this.heartTex = new Texture(Gdx.files.internal("heart.png"));
+
+        Player.player = this;
     }
 
     public int getHealth() {
@@ -146,5 +152,11 @@ public class Player extends Entity {
 
     public boolean hasGold(){
         return this.gold > 0;
+    }
+
+    public static float computeLight(int x, int y){
+        int player_x = Player.player.x;
+        int player_y = Player.player.y;
+        return (float) (Player.DUNGEON_VIEWRANGE /(Math.pow(Math.abs(x - player_x),2) + Math.pow(Math.abs(y - player_y),2)));
     }
 }
