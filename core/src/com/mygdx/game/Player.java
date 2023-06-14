@@ -153,17 +153,18 @@ public class Player extends Entity {
     }
 
     public Item dropItem(int i){
-        Item item = this.inventory.get(i);
         if (TimeUtils.nanoTime() - lastMoveTime > 150000000) {
-            item = this.inventory.get(i);
+            lastMoveTime = TimeUtils.nanoTime();
+            Item item = this.inventory.get(i);
             item.x = this.x;
             item.y = this.y;
             item.pickable = true;
+            item.dynamic_light = true;
             item.sprite.setSize(32, 32);
             this.inventory.remove(i);
             return item;
         }
-        return item;
+        return null;
     }
 
     public boolean isInInventory(String name){

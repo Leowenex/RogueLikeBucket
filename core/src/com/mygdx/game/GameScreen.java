@@ -137,56 +137,65 @@ public class GameScreen implements Screen {
         if(Gdx.input.isKeyPressed(Keys.NUM_1)){
             if (player.inventory.size() > 0){
                 Item itemDropped  = player.dropItem(0);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
 
         if(Gdx.input.isKeyPressed(Keys.NUM_2)){
             if (player.inventory.size() > 1){
                 Item itemDropped  = player.dropItem(1);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_3)){
             if (player.inventory.size() > 2){
                 Item itemDropped  = player.dropItem(2);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_4)){
             if (player.inventory.size() > 3){
                 Item itemDropped  = player.dropItem(3);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_5)){
             if (player.inventory.size() > 4){
                 Item itemDropped  = player.dropItem(4);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_6)){
             if (player.inventory.size() > 5){
                 Item itemDropped  = player.dropItem(5);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_7)){
             if (player.inventory.size() > 6){
                 Item itemDropped  = player.dropItem(6);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_8)){
             if (player.inventory.size() > 7){
                 Item itemDropped  = player.dropItem(7);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
         if(Gdx.input.isKeyPressed(Keys.NUM_9)){
             if (player.inventory.size() > 8){
                 Item itemDropped  = player.dropItem(8);
-                items.add(itemDropped);
+                if(itemDropped != null)
+                    items.add(itemDropped);
             }
         }
 
