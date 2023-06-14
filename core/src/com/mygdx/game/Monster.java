@@ -47,7 +47,7 @@ public class Monster extends Entity{
 
         if((Math.abs(player.x - this.x) <= 1 && player.y == this.y)||
                 (player.x == this.x &&Math.abs(player.y - this.y) <= 1)) {
-            player.getAttacked(1);
+            player.getAttacked(2);
         }
 
         if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1 && player.attacking){

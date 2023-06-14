@@ -88,6 +88,7 @@ public class Player extends Entity {
             this.attackArea.width = 0;
             this.attackArea.height = 0;
         }
+
     }
 
     public void draw(SpriteBatch batch){
@@ -104,7 +105,12 @@ public class Player extends Entity {
         if(!invulnerable){
             System.out.println("Player got attacked !");
             this.sprite.setColor(1,0,0,1);
-            this.health -= damage;
+            if(this.isInInventory("chestplate")){
+                this.health -= damage/2;
+            }
+            else{
+                this.health -= damage;
+            }
             System.out.println("New HP:" + this.health);
             if(this.health <= 0){
                 System.out.println("Game Over");
