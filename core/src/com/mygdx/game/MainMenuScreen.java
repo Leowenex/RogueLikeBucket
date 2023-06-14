@@ -46,7 +46,6 @@ public class MainMenuScreen implements Screen {
         camera.setToOrtho(false, 1600, 900);
     }
 
-
     @Override
     public void show() {
 

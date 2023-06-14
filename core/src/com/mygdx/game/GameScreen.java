@@ -29,7 +29,9 @@ public class GameScreen implements Screen {
 
     ArrayList<Sprite> spawns;
 
-    ArrayList<Gold> coins;
+    ArrayList<Item> coins;
+
+    NPC npc ;
 
     int level;
 
@@ -39,6 +41,8 @@ public class GameScreen implements Screen {
         this.game = game;
 
         level = 0;
+
+        npc=new NPC(5,5,"traveler","traveler");
 
         player = new Player(0,0);
 
@@ -76,13 +80,14 @@ public class GameScreen implements Screen {
             spawn.draw(game.batch);
         }
         player.draw(game.batch);
+        npc.draw(game.batch);
         for(Monster monster : monsters) {
             monster.draw(game.batch);
         }
         for (Item item : items)
             item.draw(game.batch);
 
-        for (Gold coin : coins){
+        for (Item coin : coins){
             coin.draw(game.batch);
         }
         /*
@@ -170,8 +175,8 @@ public class GameScreen implements Screen {
         for (Item item : items) {
             item.update(player, game.batch);
         }
-        for(Gold coin : coins){
-            coin.update(player);
+        for(Item coin : coins){
+            coin.update(player,game.batch);
         }
 
 

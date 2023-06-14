@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class Player {
+public class Player extends Entity {
 
-    public int x;
-    public int y;
-    public Sprite sprite;
     private int health;
     private boolean invulnerable;
     public boolean attacking;
@@ -28,10 +25,7 @@ public class Player {
     private long lastMoveTime;
 
     public Player(int x, int y) {
-        this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
-        this.sprite.setSize(32, 32);
-        this.x = x;
-        this.y = y;
+        super(x,y,"player");
         this.attackArea = new Rectangle();
         this.attackArea.width = 0;
         this.attackArea.height = 0;
@@ -42,12 +36,21 @@ public class Player {
         this.inventory = new ArrayList<>();
         this.invulnerable = false;
         this.attacking = false;
-
         this.heartTex = new Texture(Gdx.files.internal("heart.png"));
     }
 
     public int getHealth() {
         return health;
+    }
+
+    public int getActiveWeaponDamage(){
+        for(Item item : this.inventory){
+            if(item instanceof Weapon){
+                Weapon weapon = (Weapon)item;
+                return weapon.damage;
+            }
+        }
+        return 0;
     }
 
     public void update(Map map) {
@@ -108,7 +111,6 @@ public class Player {
 
             CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> this.invulnerable = false);
         }
-
     }
 
     public Item dropItem(int i){

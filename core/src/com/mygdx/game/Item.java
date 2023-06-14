@@ -7,38 +7,21 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Item {
+public class Item extends Entity{
 
-    public String name;
-    public int effectValue;
-    public String effectType;
     public int cost;
-    public Sprite sprite;
-    public int x;
-    public int y;
 
     protected boolean displayText;
     protected boolean pickable;
-    protected boolean inInventory;
-
     protected BitmapFont font;
 
 
-    public Item(String name, int effectValue, String effectType, int cost, int x, int y) {
-        this.name = name;
-        this.effectValue = effectValue;
-        this.effectType = effectType;
+    public Item(String name, int cost, int x, int y) {
+
+        super(x,y,name);
         this.cost = cost;
-        this.sprite = new Sprite(new Texture(Gdx.files.internal(name + ".png")));
-        this.sprite.setSize(32, 32);
-
-        this.x = x;
-        this.y = y;
-
         this.pickable=true;
         this.displayText=true;
-        this.inInventory=false;
-
         this.font = new BitmapFont();
     }
 
@@ -46,8 +29,14 @@ public class Item {
         if(!this.pickable){
             return;
         }
-        if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
-
+        if(this.name.equals("gold") && player.x - this.x == 0 && player.y - this.y == 0) {
+            player.gold += 1;
+            System.out.println("Gold Collected");
+            this.x = -1000;
+            this.y = -1000;
+            this.pickable = false;
+        }
+        if(!this.name.equals("gold") && Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
             displayText = true;
 
             if(Gdx.input.isKeyPressed(Input.Keys.P)){
@@ -63,7 +52,6 @@ public class Item {
                     this.x = -1000;
                     this.y = -1000;
                     this.pickable = false;
-                    this.inInventory = true;
                     this.displayText = false;
                 }else{
                     this.font.draw(batch, "You already have this item in your inventory.", 580,870);
@@ -82,6 +70,4 @@ public class Item {
             this.font.draw(batch, this.name + " : Press P to pickup", this.x * 32, 800 - this.y*32 + 64);
         }
     }
-
-
 }

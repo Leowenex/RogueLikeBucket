@@ -19,14 +19,14 @@ public class Map {
         tiles = new Tile[width][height];
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png")));
+                tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
             }
         }
 
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
                 if(i==0 || i== width-1 || j==0 || j== height-1){
-                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("Wall.png")));
+                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("mur.png")));
                 }
             }
 
@@ -34,7 +34,7 @@ public class Map {
 
         for (int x = 1; x < width - 1; x++) {
             for (int y = 1; y < height - 1; y++) {
-                tiles[x][y] = Math.random() < 0.3 ? new Tile(Materials.WALL, new Texture(Gdx.files.internal("Wall.png"))) : new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png")));
+                tiles[x][y] = Math.random() < 0.3 ? new Tile(Materials.WALL, new Texture(Gdx.files.internal("mur.png"))) : new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
             }
         }
 
@@ -57,7 +57,7 @@ public class Map {
                     walls_around++;
                 }
                 if(walls_around>=4){
-                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png")));
+                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
                 }
             }
         }
@@ -80,7 +80,7 @@ public class Map {
                     walls_around++;
                 }
                 if(walls_around>=3){
-                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("Wall.png")));
+                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("mur.png")));
                 }
             }
         }
@@ -178,7 +178,7 @@ public class Map {
                 randomY = ThreadLocalRandom.current().nextInt(1, height-1);
             }
 
-            items.add(new Item("sword", 10, "Attack", 10, randomX, randomY));
+            items.add(new Weapon("sword", 10, randomX, randomY,1));
         }
 
         int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
@@ -188,15 +188,15 @@ public class Map {
             randomX = ThreadLocalRandom.current().nextInt(1, width-1);
             randomY = ThreadLocalRandom.current().nextInt(1, height-1);
         }
-        items.add(new Item("key", 0, "", 10, randomX, randomY));
+        items.add(new Item("key", 0, randomX, randomY));
 
         return items;
 
     }
 
-    public ArrayList<Gold> placeGold(int[] playerPos, int difficulty){
+    public ArrayList<Item> placeGold(int[] playerPos, int difficulty){
         //Potentiellement différents types de pièces ?
-        ArrayList<Gold> gold = new ArrayList<Gold>();
+        ArrayList<Item> gold = new ArrayList<Item>();
 
         for(int i = 0; i < 5 * difficulty ; i++){
             int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
@@ -206,7 +206,7 @@ public class Map {
                 randomX = ThreadLocalRandom.current().nextInt(1, width-1);
                 randomY = ThreadLocalRandom.current().nextInt(1, height-1);
             }
-            gold.add(new Gold(randomX, randomY));
+            gold.add(new Item("gold",1,randomX, randomY));
         }
 
         return gold;
@@ -223,7 +223,7 @@ public class Map {
             randomY = ThreadLocalRandom.current().nextInt(1, height-1);
         }
 
-        tiles[randomX][randomY].texture = new Texture(Gdx.files.internal("Door.png"));
+        tiles[randomX][randomY].texture = new Texture(Gdx.files.internal("porte.png"));
 
         return new int[]{randomX, randomY};
 

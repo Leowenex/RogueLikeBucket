@@ -6,26 +6,23 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Monster {
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
-    public int x;
-    public int y;
+public class Monster extends Entity{
 
-
-    public Sprite sprite;
-
+    private int health =2;
     private boolean alive;
 
     private long lastMoveTime;
 
+    private boolean invulnerable;
+
     public Monster(int x, int y) {
-        this.sprite = new Sprite(new Texture(Gdx.files.internal("bucket.png")));
-        this.sprite.setSize(32, 32);
-        this.sprite.setColor(1, 0, 0, 1);
-        this.x = x;
-        this.y = y;
+        super(x,y,"player");
         this.alive = true;
         lastMoveTime = TimeUtils.nanoTime();
+        this.invulnerable = false;
     }
 
     public void update(Player player) {
@@ -54,17 +51,25 @@ public class Monster {
         }
 
         if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1 && player.attacking){
-            System.out.println("Monster Hit");
-            this.x = 0;
-            this.y = 0;
-            this.sprite.setColor(0, 0, 0, 0);
-            this.alive = false;
+            this.getAttacked(player.getActiveWeaponDamage());
         }
+
     }
 
-    public void draw(SpriteBatch batch){
-        this.sprite.setPosition(this.x * 32, 800-this.y*32);
-        this.sprite.draw(batch);
+    public void getAttacked(int damage){
+        if(!invulnerable){
+            this.sprite.setColor(1,0,0,1);
+            this.health -= damage;
+            if(this.health <= 0){
+                this.x = 0;
+                this.y = 0;
+                this.sprite.setColor(0, 0, 0, 0);
+                this.alive = false;
+            }
+            this.invulnerable = true;
+
+            CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> this.invulnerable = false);
+        }
     }
 
     public boolean isAlive(){
