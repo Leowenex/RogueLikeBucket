@@ -62,23 +62,45 @@ public class Player extends Entity {
 
     public void update(Map map) {
 
-        if (TimeUtils.nanoTime() - lastMoveTime > 150000000) {
-            lastMoveTime = TimeUtils.nanoTime();
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial()!= Materials.WALL) {
-                this.x -= 1;
-                this.attackArea.x -= 1;
+        if(this.isInInventory("boots")) {
+            if (TimeUtils.nanoTime() - lastMoveTime > 100000000) {
+                lastMoveTime = TimeUtils.nanoTime();
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
+                    this.x -= 1;
+                    this.attackArea.x -= 1;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
+                    this.x += 1;
+                    this.attackArea.x += 1;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
+                    this.y -= 1;
+                    this.attackArea.y -= 1;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
+                    this.y += 1;
+                    this.attackArea.y += 1;
+                }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial()!= Materials.WALL) {
-                this.x += 1;
-                this.attackArea.x += 1;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial()!= Materials.WALL) {
-                this.y -= 1;
-                this.attackArea.y -= 1;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial()!= Materials.WALL ) {
-                this.y += 1;
-                this.attackArea.y += 1;
+        }else{
+            if (TimeUtils.nanoTime() - lastMoveTime > 150000000) {
+                lastMoveTime = TimeUtils.nanoTime();
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
+                    this.x -= 1;
+                    this.attackArea.x -= 1;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
+                    this.x += 1;
+                    this.attackArea.x += 1;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
+                    this.y -= 1;
+                    this.attackArea.y -= 1;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
+                    this.y += 1;
+                    this.attackArea.y += 1;
+                }
             }
         }
 
@@ -87,7 +109,11 @@ public class Player extends Entity {
             this.sprite.setColor(0, 1, 0, 1);
             this.attackArea.width = 128;
             this.attackArea.height = 128;
-            CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
+            if(this.isInInventory("glove"))
+                CompletableFuture.delayedExecutor(250, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
+            else
+                CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
+
         } else {
             this.sprite.setColor(1, 1, 1, 1);
             this.attackArea.width = 0;
@@ -165,3 +191,4 @@ public class Player extends Entity {
         return (float) (Player.DUNGEON_VIEWRANGE /(Math.pow(Math.abs(x - player_x),2) + Math.pow(Math.abs(y - player_y),2)));
     }
 }
+
