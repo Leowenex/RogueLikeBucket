@@ -39,10 +39,19 @@ public class Item extends Entity{
                     player.hasKey = true;
                 }else{
                     boolean ItemInInventory = false;
-                    for (int i = 0; i < player.inventory.size(); i++) {
-                        if (player.inventory.get(i).name.equals(this.name)) {
-                            ItemInInventory = true;
-                            break;
+                    if(this.name.equals("sword")||this.name.equals("axe")) {
+                        for (int i = 0; i < player.inventory.size(); i++) {
+                            if (player.inventory.get(i).name.equals("sword") || player.inventory.get(i).name.equals("axe")){
+                                ItemInInventory = true;
+                                break;
+                            }
+                        }
+                    }else{
+                        for (int i = 0; i < player.inventory.size(); i++) {
+                            if (player.inventory.get(i).name.equals(this.name)) {
+                                ItemInInventory = true;
+                                break;
+                            }
                         }
                     }
                     if(!ItemInInventory) {
@@ -53,7 +62,7 @@ public class Item extends Entity{
                         this.y = -1000;
                         this.pickable = false;
                     }else{
-                        font.draw(batch, "You already have this item in your inventory.", 580,870);
+                        font.draw(batch, "You already have this item or an item of the same type in your inventory.", 550,870);
                     }
                     this.displayText = false;
                 }

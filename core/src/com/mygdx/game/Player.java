@@ -82,7 +82,7 @@ public class Player extends Entity {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && this.isInInventory("sword")) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && (this.isInInventory("sword") || this.isInInventory("axe"))){
             this.attacking = true;
             this.sprite.setColor(0, 1, 0, 1);
             this.attackArea.width = 128;

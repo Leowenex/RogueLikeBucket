@@ -57,8 +57,8 @@ public class Monster extends Entity{
             this.sprite.setColor(1,0,0,1);
             this.health -= damage;
             if(this.health <= 0){
-                this.x = 0;
-                this.y = 0;
+                this.x = -1000;
+                this.y = -1000;
                 this.sprite.setColor(0, 0, 0, 0);
                 this.alive = false;
             }

@@ -12,10 +12,15 @@ public class Map {
     public Tile[][] tiles;
     public int width;
     public int height;
+    public String[] weapons = {"sword","axe"};
+    public String[] armors = {"chestplate","glove","boots"};
+
 
     public Map(int width, int height, int difficulty, int[] playerPos) {
         this.width = width;
         this.height = height;
+
+
         tiles = new Tile[width][height];
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
@@ -169,20 +174,36 @@ public class Map {
         //TODO: Faire en sorte que la porte apparaisse loin du joueur
         ArrayList<Item> items = new ArrayList<Item>();
 
-        for(int i = 0; i <difficulty; i++){
-            int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-            while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
-                randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-                randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-            }
-
-            items.add(new Weapon("sword", 10, randomX, randomY,1));
-        }
-
+        // weapon
         int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
         int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+        }
+
+        int randomidx = ThreadLocalRandom.current().nextInt(0, 2);
+        System.out.println(randomidx);
+        if(weapons[randomidx].equals("sword"))
+            items.add(new Weapon(weapons[randomidx], 10, randomX, randomY,1));
+        else
+            items.add(new Weapon(weapons[randomidx], 10, randomX, randomY,2));
+
+        //armor
+        randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+        randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+
+        while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
+            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
+        }
+        randomidx = ThreadLocalRandom.current().nextInt(0, 3);
+        items.add(new Item(armors[randomidx], 25, randomX, randomY));
+
+        // key
+        randomX = ThreadLocalRandom.current().nextInt(1, width-1);
+        randomY = ThreadLocalRandom.current().nextInt(1, height-1);
 
         while(tiles[randomX][randomY].getMaterial() != Materials.AIR || (randomX == playerPos[0] && randomY == playerPos[1])){
             randomX = ThreadLocalRandom.current().nextInt(1, width-1);
