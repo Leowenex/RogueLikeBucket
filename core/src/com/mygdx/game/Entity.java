@@ -9,6 +9,8 @@ public class Entity {
     int x;
     int y;
 
+    boolean dynamic_light;
+
     Sprite sprite;
 
     String name;
@@ -16,6 +18,7 @@ public class Entity {
     public Entity(int x, int y, String name){
         this.x = x;
         this.y =y;
+        dynamic_light = true;
         this.name = name;
         this.sprite = new Sprite(new Texture(Gdx.files.internal(name + ".png")));
         this.sprite.setSize(32, 32);
@@ -24,7 +27,7 @@ public class Entity {
 
     public void draw(SpriteBatch batch) {
         this.sprite.setPosition(this.x * 32, 800 - this.y * 32);
-        this.sprite.setColor(1, 1, 1, Player.computeLight(this.x, this.y));
+        this.sprite.setColor(1, 1, 1, dynamic_light?Player.computeLight(this.x, this.y):1);
         this.sprite.draw(batch);
     }
 

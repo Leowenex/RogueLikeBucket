@@ -31,6 +31,7 @@ public class Item extends Entity{
                 if(this.name.equals("key")){
                     this.x = 39;
                     this.y = -1;
+                    this.dynamic_light = false;
                     this.pickable = false;
                     this.displayText = false;
                     this.sprite.setSize(40,40);
@@ -47,6 +48,7 @@ public class Item extends Entity{
                     if(!ItemInInventory) {
                         player.inventory.add(this);
                         System.out.println("Item Collected");
+                        this.dynamic_light = false;
                         this.x = -1000;
                         this.y = -1000;
                         this.pickable = false;
@@ -63,7 +65,7 @@ public class Item extends Entity{
 
     public void draw(SpriteBatch batch, BitmapFont font ) {
         this.sprite.setPosition(x * 32, 800 - y*32);
-        this.sprite.setColor(1,1,1,Player.computeLight(this.x, this.y));
+        this.sprite.setColor(1,1,1,dynamic_light?Player.computeLight(this.x, this.y):1);
         this.sprite.draw(batch);
         if(this.displayText){
             font.draw(batch, this.name + " : Press P to pickup", x * 32, 800 - y*32 + 64);

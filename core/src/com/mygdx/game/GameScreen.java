@@ -109,7 +109,6 @@ public class GameScreen implements Screen {
         }
 
         for(int i=0;i<player.inventory.size();i++){
-            player.inventory.get(i).sprite.setColor(1,1,1,1);
             player.inventory.get(i).sprite.setPosition(1308, 766 - i*80);
             player.inventory.get(i).sprite.setSize(54,54);
             player.inventory.get(i).sprite.draw(game.batch);
