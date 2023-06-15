@@ -121,16 +121,16 @@ public class GameScreen implements Screen {
         gold.draw(game.batch);
         game.font.draw(game.batch, " x " + player.gold, 1340,872);
 
-        for (int i=0;i<10;i++){
+        for (int i=0;i<9;i++){
             Sprite inventory = new Sprite(new Texture(Gdx.files.internal("inventory_case.png")));
-            inventory.setSize(70,70);
-            inventory.setPosition(1300, 760 - i*80);
+            inventory.setSize(80,80);
+            inventory.setPosition(1300, 758 - i*90);
             inventory.draw(game.batch);
         }
 
         for(int i=0;i<player.inventory.size();i++){
-            player.inventory.get(i).sprite.setPosition(1308, 766 - i*80);
-            player.inventory.get(i).sprite.setSize(54,54);
+            player.inventory.get(i).sprite.setPosition(1308, 766 - i*90);
+            player.inventory.get(i).sprite.setSize(60,60);
             player.inventory.get(i).sprite.draw(game.batch);
         }
 

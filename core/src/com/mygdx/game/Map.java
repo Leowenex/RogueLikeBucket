@@ -15,6 +15,7 @@ public class Map {
     public String[] weapons = {"sword","axe"};
     public String[] armors = {"chestplate","glove","boots"};
     public String[] potions = {"health_potion","mana_potion"};
+    public String[] spells = {"fire_spell","ice_spell","nature_spell"};
 
 
     public Map(int width, int height, int[] playerPos) {
@@ -183,7 +184,6 @@ public class Map {
         pos = findRandomPos(playerPos);
 
         int randomidx = ThreadLocalRandom.current().nextInt(0, 2);
-        System.out.println(randomidx);
         if(weapons[randomidx].equals("sword"))
             items.add(new Weapon(weapons[randomidx], 10, pos[0], pos[1],1));
         else
@@ -198,6 +198,11 @@ public class Map {
         pos = findRandomPos(playerPos);
         randomidx = ThreadLocalRandom.current().nextInt(0, 2);
         items.add(new Item(potions[randomidx], 15, pos[0], pos[1]));
+
+        //spell
+        pos = findRandomPos(playerPos);
+        randomidx = ThreadLocalRandom.current().nextInt(0, 3);
+        items.add(new Item(spells[randomidx], 50, pos[0], pos[1]));
 
         return items;
 
