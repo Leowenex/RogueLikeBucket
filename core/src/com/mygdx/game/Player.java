@@ -109,14 +109,14 @@ public class Player extends Entity {
 
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.H)){
+        if(Gdx.input.isKeyPressed(Input.Keys.V)){
             if(player.isInInventory("health_potion")){
 
                 player.inventory.removeIf(item -> item.name.equals("health_potion"));
                 player.health = 10;
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.R)){
+        if(Gdx.input.isKeyPressed(Input.Keys.B)){
             if(player.isInInventory("mana_potion")){
 
                 player.inventory.removeIf(item -> item.name.equals("mana_potion"));

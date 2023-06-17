@@ -150,7 +150,7 @@ public class GameScreen implements Screen {
         }
 
         game.font.getData().setScale(1.2f);
-        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- H : consume health \npotion\n\n- R : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- B : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory", 1400, 872);
+        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory", 1400, 872);
         game.font.getData().setScale(1f);
 
         game.batch.end();
@@ -251,7 +251,7 @@ public class GameScreen implements Screen {
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_glace", player.direction));
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.B) && player.isInInventory("nature_spell") && player.mana > 0) {
+        if (Gdx.input.isKeyPressed(Input.Keys.H) && player.isInInventory("nature_spell") && player.mana > 0) {
             if(player.canAttack()){
                 player.mana -= 1;
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_nature", player.direction));
