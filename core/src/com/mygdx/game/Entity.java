@@ -26,7 +26,7 @@ public class Entity {
 
     public void draw(SpriteBatch batch) {
         this.sprite.setPosition(this.x * 32, 800 - this.y * 32);
-        this.sprite.setColor(1, 1, 1, dynamic_light?Player.computeLight(this.x, this.y):1);
+        this.sprite.setAlpha(dynamic_light?Player.computeLight(this.x, this.y):1);
         this.sprite.draw(batch);
     }
 

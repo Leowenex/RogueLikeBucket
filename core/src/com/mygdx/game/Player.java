@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -205,7 +206,7 @@ public class Player extends Entity {
     public static float computeLight(int x, int y){
         int player_x = Player.player.x;
         int player_y = Player.player.y;
-        return (float) (Player.DUNGEON_VIEWRANGE /(Math.pow(Math.abs(x - player_x),2) + Math.pow(Math.abs(y - player_y),2)));
+        return (float) MathUtils.clamp((Player.DUNGEON_VIEWRANGE /(Math.pow(Math.abs(x - player_x),2) + Math.pow(Math.abs(y - player_y),2))),0,1);
     }
 }
 

@@ -263,7 +263,7 @@ public class GameScreen implements Screen {
             game.setScreen(new MainMenuScreen(game));
             this.dispose();
         }
-        if(Gdx.input.isKeyPressed(Keys.M) && TimeUtils.nanoTime() - lastSwitch > 500000000){
+        if(Gdx.input.isKeyPressed(Keys.SEMICOLON) && TimeUtils.nanoTime() - lastSwitch > 500000000){
             lastSwitch = TimeUtils.nanoTime();
             if(music.isPlaying())
                 music.pause();

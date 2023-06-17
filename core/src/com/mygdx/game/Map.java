@@ -252,8 +252,7 @@ public class Map {
         float alpha;
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                    alpha = Player.computeLight(i, j);
-                    tiles[i][j].draw(batch, i * 32, 800 - j * 32, alpha);
+                    tiles[i][j].draw(batch, i * 32, 800 - j * 32, Player.computeLight(i, j));
             }
         }
     }

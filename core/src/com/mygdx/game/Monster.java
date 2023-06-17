@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.concurrent.CompletableFuture;
@@ -54,7 +55,6 @@ public class Monster extends Entity{
 
     public void getAttacked(int damage){
         if(!invulnerable){
-            this.sprite.setColor(1,0,0,1);
             this.health -= damage;
             if(this.health <= 0){
                 this.x = -1000;
@@ -66,6 +66,18 @@ public class Monster extends Entity{
 
             CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS).execute(() -> this.invulnerable = false);
         }
+    }
+
+    public void draw(SpriteBatch batch){
+        if(!this.isAlive()){
+            return;
+        }
+        if(this.invulnerable)
+            this.sprite.setColor(1, 0.5f, 0.5f, 1);
+        else
+            this.sprite.setColor(1, 1, 1, 1);
+
+        super.draw(batch);
     }
 
     public boolean isAlive(){
