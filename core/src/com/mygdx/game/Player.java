@@ -15,7 +15,7 @@ public class Player extends Entity {
 
     private static Player player;
 
-    private static final int DUNGEON_VIEWRANGE = 20;
+    private static final int DUNGEON_VIEWRANGE = 30;
 
     public int health;
     public int mana;
