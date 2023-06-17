@@ -46,8 +46,8 @@ public class SaveManager {
             case "chestplate":
                 item = new Item("chestplate", 5, 0, 0);
                 break;
-            case "gloves":
-                item = new Item("gloves", 5, 0, 0);
+            case "glove":
+                item = new Item("glove", 5, 0, 0);
                 break;
             case "boots":
                 item = new Item("boots", 5, 0, 0);
@@ -57,6 +57,15 @@ public class SaveManager {
                 break;
             case "mana_potion":
                 item = new Item("mana_potion", 5, 0, 0);
+                break;
+            case "fire_spell":
+                item = new Item("fire_spell", 5, 0, 0);
+                break;
+            case "ice_spell":
+                item = new Item("ice_spell", 5, 0, 0);
+                break;
+            case "nature_spell":
+                item = new Item("nature_spell", 5, 0, 0);
                 break;
         }
         if(item == null)
