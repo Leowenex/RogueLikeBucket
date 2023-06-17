@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
     final GameLauncher game;
@@ -23,20 +24,15 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
 
     Player player;
+
     ArrayList<Monster> monsters;
-
     ArrayList<Item> items;
-
     ArrayList<Sprite> spawns;
-
     ArrayList<Gold> coins;
-
     ArrayList<Projectile> projectiles;
-
     Key key;
-
+    long lastSwitch;
     int level;
-
     int[] exitPos;
 
     public GameScreen(final GameLauncher game) {
@@ -53,6 +49,8 @@ public class GameScreen implements Screen {
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
+
+        lastSwitch = TimeUtils.nanoTime();
 
         this.loadNextMap();
     }
@@ -74,10 +72,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        // clear the screen with a dark blue color. The
-        // arguments to clear are the red, green
-        // blue and alpha component in the range [0,1]
-        // of the color to be used to clear the screen.
+
         ScreenUtils.clear(0, 0, 0.2f, 1);
 
         // We add a black rectangle to serve as the map background
@@ -94,34 +89,39 @@ public class GameScreen implements Screen {
         // coordinate system specified by the camera.
         game.batch.setProjectionMatrix(camera.combined);
 
-        // begin a new batch and draw the bucket and
-        // all drops
-        game.batch.begin();
-        map.draw(game.batch);
-        for(Sprite spawn: spawns){
-            spawn.draw(game.batch);
+        handleInputs();
+        handleUpdates();
+        handleDraws();
+
+        if(player.getHealth()<=0){
+            game.setScreen(new GameOverScreen(game));
+            this.dispose();
         }
+    }
+
+    public void handleDraws(){
+
+        game.batch.begin();
+
+        map.draw(game.batch);
         player.draw(game.batch);
+        key.draw(game.batch);
+
         for(Monster monster : monsters) {
             monster.draw(game.batch);
         }
         for (Item item : items)
             item.draw(game.batch, game.font);
-
         for (Gold coin : coins){
             coin.draw(game.batch);
         }
-
         for (Projectile projectile : projectiles){
             projectile.draw(game.batch);
         }
+        for(Sprite spawn: spawns){
+            spawn.draw(game.batch);
+        }
 
-        key.draw(game.batch);
-
-        /*
-        game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
-        */
-        //game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 600, 850);
         Sprite gold = new Sprite(new Texture(Gdx.files.internal( "gold.png")));
         gold.setSize(32,32);
         gold.setPosition(1300,850);
@@ -141,6 +141,36 @@ public class GameScreen implements Screen {
             player.inventory.get(i).sprite.draw(game.batch);
         }
 
+        if(player.x == exitPos[0] && player.y == exitPos[1]){
+            if(player.hasKey) {
+                this.loadNextMap();
+            }else{
+                game.font.draw(game.batch, "Pick up the key to open the door ! ", Math.max(exitPos[0] * 32 - 80, 0), 800 - exitPos[1] * 32 + 50);
+            }
+        }
+
+        game.batch.end();
+    }
+
+    public void handleUpdates(){
+        player.update(map);
+        for(Monster monster : monsters){
+            monster.update(player);
+        }
+        for (Item item : items) {
+            item.update(player);
+        }
+        for(Gold coin : coins){
+            coin.update(player);
+        }
+        for (Projectile projectile : projectiles){
+            projectile.update(monsters);
+        }
+        key.update(player);
+    }
+
+    public void handleInputs(){
+
         if(Gdx.input.isKeyPressed(Keys.NUM_1)){
             if (player.inventory.size() > 0){
                 Item itemDropped  = player.dropItem(0);
@@ -148,7 +178,6 @@ public class GameScreen implements Screen {
                     items.add(itemDropped);
             }
         }
-
         if(Gdx.input.isKeyPressed(Keys.NUM_2)){
             if (player.inventory.size() > 1){
                 Item itemDropped  = player.dropItem(1);
@@ -212,14 +241,12 @@ public class GameScreen implements Screen {
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_feu", player.direction));
             }
         }
-
         if (Gdx.input.isKeyPressed(Input.Keys.G) && player.isInInventory("ice_spell") && player.mana > 0) {
             if(player.canAttack()){
                 player.mana -= 1;
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_glace", player.direction));
             }
         }
-
         if (Gdx.input.isKeyPressed(Input.Keys.B) && player.isInInventory("nature_spell") && player.mana > 0) {
             if(player.canAttack()){
                 player.mana -= 1;
@@ -227,47 +254,17 @@ public class GameScreen implements Screen {
             }
         }
 
-        player.update(map);
-        for(Monster monster : monsters)
-            monster.update(player);
-        for (Item item : items) {
-            item.update(player, game.batch, game.font);
-        }
-        for(Gold coin : coins){
-            coin.update(player);
-        }
-        for (Projectile projectile : projectiles)
-            projectile.update(monsters);
-        key.update(player);
-
-
-        if(player.x == exitPos[0] && player.y == exitPos[1]){
-            if(player.hasKey) {
-                this.loadNextMap();
-            }else{
-                game.font.draw(game.batch, "Pick up the key to open the door ! ", Math.max(exitPos[0] * 32 - 80, 0), 800 - exitPos[1] * 32 + 50);
-            }
-        }
-
-
-
-        game.batch.end();
-
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
             SaveManager.saveCharacter(player);
             game.setScreen(new MainMenuScreen(game));
             this.dispose();
         }
-        if(Gdx.input.isKeyPressed(Keys.M)){
+        if(Gdx.input.isKeyPressed(Keys.M) && TimeUtils.nanoTime() - lastSwitch > 500000000){
+            lastSwitch = TimeUtils.nanoTime();
             if(music.isPlaying())
                 music.pause();
             else
                 music.play();
-        }
-
-        if(player.getHealth()<=0){
-            game.setScreen(new GameOverScreen(game));
-            this.dispose();
         }
     }
 
