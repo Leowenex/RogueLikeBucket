@@ -117,6 +117,22 @@ public class Player extends Entity {
             this.attackArea.height = 0;
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.H)){
+            if(player.isInInventory("health_potion")){
+
+                player.inventory.removeIf(item -> item.name.equals("health_potion"));
+                player.health = 10;
+            }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.R)){
+            if(player.isInInventory("mana_potion")){
+
+                player.inventory.removeIf(item -> item.name.equals("mana_potion"));
+                player.mana = 10;
+
+            }
+        }
+
     }
 
     public void draw(SpriteBatch batch){
@@ -178,10 +194,6 @@ public class Player extends Entity {
         return false;
     }
 
-    public boolean hasGold(){
-        return this.gold > 0;
-    }
-
     public boolean canAttack(){
         int delay = this.isInInventory("glove")? 500000000 : 1000000000;
         if(TimeUtils.nanoTime() - lastAttackTime > delay){
@@ -194,6 +206,7 @@ public class Player extends Entity {
     public void dispose(){
         this.sprite.getTexture().dispose();
         this.heartTex.dispose();
+        this.manaTex.dispose();
         this.inventory.forEach(Item::dispose);
     }
 

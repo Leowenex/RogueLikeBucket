@@ -249,27 +249,6 @@ public class GameScreen implements Screen {
             }
         }
 
-        if(Gdx.input.isKeyPressed(Keys.H)){
-            if(player.isInInventory("health_potion")){
-                for(int i=0; i< player.inventory.size();i++){
-                    if(player.inventory.get(i).name.equals("health_potion")){
-                        player.health = 10;
-                        player.inventory.remove(i);
-                    }
-                }
-            }
-        }
-        if(Gdx.input.isKeyPressed(Keys.R)){
-            if(player.isInInventory("mana_potion")){
-                for(int i=0; i< player.inventory.size();i++){
-                    if(player.inventory.get(i).name.equals("mana_potion")){
-                        player.mana = 10;
-                        player.inventory.remove(i);
-                    }
-                }
-            }
-        }
-
 
 
         game.batch.end();
