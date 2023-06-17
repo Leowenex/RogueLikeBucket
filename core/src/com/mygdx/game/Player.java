@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class Player extends Entity {
     public boolean hasKey;
     public ArrayList<Item> inventory;
     public int gold;
-    public Rectangle attackArea;
     private final Texture heartTex;
     private final Texture manaTex;
 
@@ -36,18 +34,17 @@ public class Player extends Entity {
 
     public Player(int x, int y) {
         super(x,y,"player");
-        this.attackArea = new Rectangle();
-        this.attackArea.width = 0;
-        this.attackArea.height = 0;
+
         this.gold = 0;
-        this.attackArea.x = this.x;
-        this.attackArea.y = this.y;
         this.health = 10;
         this.mana=10;
+
         this.inventory = new ArrayList<>();
+
         this.invulnerable = false;
         this.attacking = false;
         this.hasKey = false;
+
         this.heartTex = new Texture(Gdx.files.internal("PV.png"));
         this.manaTex = new Texture(Gdx.files.internal("PM.png"));
 
@@ -82,39 +79,31 @@ public class Player extends Entity {
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
                 player.direction = "left";
                 this.x -= 1;
-                this.attackArea.x -= 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
                 player.direction = "right";
                 this.x += 1;
-                this.attackArea.x += 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
                 player.direction = "up";
                 this.y -= 1;
-                this.attackArea.y -= 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
                 player.direction = "down";
                 this.y += 1;
-                this.attackArea.y += 1;
             }
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && (this.isInInventory("sword") || this.isInInventory("axe")) && canAttack()){
 
             this.attacking = true;
-
             this.sprite.setColor(0, 1, 0, 1);
-            this.attackArea.width = 128;
-            this.attackArea.height = 128;
-
             CompletableFuture.delayedExecutor(250, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
 
         } else {
+
             this.sprite.setColor(1, 1, 1, 1);
-            this.attackArea.width = 0;
-            this.attackArea.height = 0;
+
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.H)){
