@@ -26,8 +26,13 @@ public class Player extends Entity {
     public int gold;
     public Rectangle attackArea;
     private final Texture heartTex;
+    private final Texture manaTex;
+
+    public String direction;
 
     private long lastMoveTime;
+
+    private long lastAttackTime;
 
     public Player(int x, int y) {
         super(x,y,"player");
@@ -43,7 +48,13 @@ public class Player extends Entity {
         this.invulnerable = false;
         this.attacking = false;
         this.hasKey = false;
-        this.heartTex = new Texture(Gdx.files.internal("heart.png"));
+        this.heartTex = new Texture(Gdx.files.internal("PV.png"));
+        this.manaTex = new Texture(Gdx.files.internal("PM.png"));
+
+        this.lastMoveTime = TimeUtils.nanoTime();
+        this.lastAttackTime = TimeUtils.nanoTime();
+
+        this.direction = "down";
 
         Player.player = this;
     }
@@ -64,57 +75,41 @@ public class Player extends Entity {
 
     public void update(Map map) {
 
-        if(this.isInInventory("boots")) {
-            if (TimeUtils.nanoTime() - lastMoveTime > 100000000) {
-                lastMoveTime = TimeUtils.nanoTime();
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
-                    this.x -= 1;
-                    this.attackArea.x -= 1;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
-                    this.x += 1;
-                    this.attackArea.x += 1;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
-                    this.y -= 1;
-                    this.attackArea.y -= 1;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
-                    this.y += 1;
-                    this.attackArea.y += 1;
-                }
+        int move_delay = this.isInInventory("boots")? 100000000 : 150000000;
+
+        if (TimeUtils.nanoTime() - lastMoveTime > move_delay) {
+            lastMoveTime = TimeUtils.nanoTime();
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
+                player.direction = "left";
+                this.x -= 1;
+                this.attackArea.x -= 1;
             }
-        }else{
-            if (TimeUtils.nanoTime() - lastMoveTime > 150000000) {
-                lastMoveTime = TimeUtils.nanoTime();
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
-                    this.x -= 1;
-                    this.attackArea.x -= 1;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
-                    this.x += 1;
-                    this.attackArea.x += 1;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
-                    this.y -= 1;
-                    this.attackArea.y -= 1;
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
-                    this.y += 1;
-                    this.attackArea.y += 1;
-                }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
+                player.direction = "right";
+                this.x += 1;
+                this.attackArea.x += 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
+                player.direction = "up";
+                this.y -= 1;
+                this.attackArea.y -= 1;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
+                player.direction = "down";
+                this.y += 1;
+                this.attackArea.y += 1;
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && (this.isInInventory("sword") || this.isInInventory("axe"))){
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && (this.isInInventory("sword") || this.isInInventory("axe")) && canAttack()){
+
             this.attacking = true;
+
             this.sprite.setColor(0, 1, 0, 1);
             this.attackArea.width = 128;
             this.attackArea.height = 128;
-            if(this.isInInventory("glove"))
-                CompletableFuture.delayedExecutor(250, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
-            else
-                CompletableFuture.delayedExecutor(500, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
+
+            CompletableFuture.delayedExecutor(250, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
 
         } else {
             this.sprite.setColor(1, 1, 1, 1);
@@ -130,6 +125,11 @@ public class Player extends Entity {
         //Display the life points
         for(int i = 0; i<this.health; i++){
             batch.draw(heartTex, i*32 + 15, 850, 32,32);
+        }
+
+        //Display the mana points
+        for(int i = 0; i<this.mana; i++){
+            batch.draw(manaTex, i*32 + 365, 850, 32,32);
         }
 
     }
@@ -180,6 +180,15 @@ public class Player extends Entity {
 
     public boolean hasGold(){
         return this.gold > 0;
+    }
+
+    public boolean canAttack(){
+        int delay = this.isInInventory("glove")? 500000000 : 1000000000;
+        if(TimeUtils.nanoTime() - lastAttackTime > delay){
+            lastAttackTime = TimeUtils.nanoTime();
+            return true;
+        }
+        return false;
     }
 
     public void dispose(){

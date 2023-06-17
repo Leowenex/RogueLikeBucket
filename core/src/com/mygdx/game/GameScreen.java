@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -29,6 +30,8 @@ public class GameScreen implements Screen {
     ArrayList<Sprite> spawns;
 
     ArrayList<Gold> coins;
+
+    ArrayList<Projectile> projectiles;
 
     Key key;
 
@@ -109,12 +112,16 @@ public class GameScreen implements Screen {
             coin.draw(game.batch);
         }
 
+        for (Projectile projectile : projectiles){
+            projectile.draw(game.batch);
+        }
+
         key.draw(game.batch);
 
         /*
         game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         */
-        game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 600, 850);
+        //game.font.draw(game.batch, "Number of items in the inventory: " + player.inventory.size(), 600, 850);
         Sprite gold = new Sprite(new Texture(Gdx.files.internal( "gold.png")));
         gold.setSize(32,32);
         gold.setPosition(1300,850);
@@ -199,6 +206,27 @@ public class GameScreen implements Screen {
             }
         }
 
+        if (Gdx.input.isKeyPressed(Input.Keys.F) && player.isInInventory("fire_spell") && player.mana > 0) {
+            if(player.canAttack()) {
+                player.mana -= 1;
+                this.projectiles.add(new Projectile(player.x, player.y, "projectile_feu", player.direction));
+            }
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.G) && player.isInInventory("ice_spell") && player.mana > 0) {
+            if(player.canAttack()){
+                player.mana -= 1;
+                this.projectiles.add(new Projectile(player.x, player.y, "projectile_glace", player.direction));
+            }
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.B) && player.isInInventory("nature_spell") && player.mana > 0) {
+            if(player.canAttack()){
+                player.mana -= 1;
+                this.projectiles.add(new Projectile(player.x, player.y, "projectile_nature", player.direction));
+            }
+        }
+
         player.update(map);
         for(Monster monster : monsters)
             monster.update(player);
@@ -208,6 +236,8 @@ public class GameScreen implements Screen {
         for(Gold coin : coins){
             coin.update(player);
         }
+        for (Projectile projectile : projectiles)
+            projectile.update(monsters);
         key.update(player);
 
 
@@ -291,6 +321,8 @@ public class GameScreen implements Screen {
         items = map.placeItems(playerPos, level);
         coins = map.placeGold(playerPos, level);
         key = map.placeKey(playerPos);
+
+        projectiles = new ArrayList<>();
 
         exitPos = map.placeExit(playerPos);
     }
