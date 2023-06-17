@@ -72,9 +72,6 @@ public class Item extends Entity{
     }
 
     public void draw(SpriteBatch batch, BitmapFont font ) {
-        this.sprite.setPosition(x * 32, 800 - y*32);
-        this.sprite.setColor(1,1,1,dynamic_light?Player.computeLight(this.x, this.y):1);
-        this.sprite.draw(batch);
         if(this.displayText){
             if(this.itemInInventory){
                 font.draw(batch, this.name + " : Already have item of same type in inventory", x * 32, 800 - y*32 + 64);
@@ -84,5 +81,6 @@ public class Item extends Entity{
             }
 
         }
+        super.draw(batch);
     }
 }

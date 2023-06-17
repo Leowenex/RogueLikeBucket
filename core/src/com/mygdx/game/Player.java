@@ -75,20 +75,23 @@ public class Player extends Entity {
         int move_delay = this.isInInventory("boots")? 100000000 : 150000000;
 
         if (TimeUtils.nanoTime() - lastMoveTime > move_delay) {
-            lastMoveTime = TimeUtils.nanoTime();
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.tiles[x - 1][y].getMaterial() != Materials.WALL) {
+                lastMoveTime = TimeUtils.nanoTime();
                 player.direction = "left";
                 this.x -= 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.tiles[x + 1][y].getMaterial() != Materials.WALL) {
+                lastMoveTime = TimeUtils.nanoTime();
                 player.direction = "right";
                 this.x += 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.tiles[x][y - 1].getMaterial() != Materials.WALL) {
+                lastMoveTime = TimeUtils.nanoTime();
                 player.direction = "up";
                 this.y -= 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.tiles[x][y + 1].getMaterial() != Materials.WALL) {
+                lastMoveTime = TimeUtils.nanoTime();
                 player.direction = "down";
                 this.y += 1;
             }
