@@ -17,13 +17,26 @@ public class Map {
     public String[] potions = {"health_potion","mana_potion"};
     public String[] spells = {"fire_spell","ice_spell","nature_spell"};
 
+    public boolean isDungeon;
 
-    public Map(int width, int height, int[] playerPos) {
+
+    public Map(int width, int height, int[] playerPos, boolean isDungeon) {
         this.width = width;
         this.height = height;
 
+        this.isDungeon = isDungeon;
+
 
         tiles = new Tile[width][height];
+
+        if(isDungeon){
+            generateDungeon(playerPos);
+        }else{
+            generateField(playerPos);
+        }
+    }
+
+    public void generateDungeon( int[] playerPos){
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
                 tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
@@ -100,42 +113,16 @@ public class Map {
                 }
             }
         }
-        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
+    }
 
-
-        // METHODE DU COURS
-        /*
-        Tile[][] tiles_copy = tiles.clone();
-
-        for (int times = 0; times < 0; times++) {
-
-            for (int x = 2; x < width - 2; x++) {
-                for (int y = 2; y < height - 2; y++) {
-
-                    int floors = 0;
-                    int rocks = 0;
-
-                    for (int ox = -1; ox < 2; ox++) {
-                        for (int oy = -1; oy < 2; oy++) {
-                            if (x + ox < 1 || x + ox >= width-1 || y + oy < 1 || y + oy >= height - 1)
-                                continue;
-
-                            if (tiles[x + ox][y + oy].getMaterial() == Materials.AIR)
-                                floors++;
-                            else
-                                rocks++;
-                        }
-                    }
-                    tiles_copy[x][y] = floors >= rocks ? new Tile(Materials.AIR, new Texture(Gdx.files.internal("Stone.png"))) : new Tile(Materials.WALL, new Texture(Gdx.files.internal("Wall.png")));
-                }
+    public void generateField(int[] playerPos){
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++) {
+                tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/grass.png")));
             }
-
-            tiles = tiles_copy.clone();
-
         }
 
-         */
-
+        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
     }
 
     public void setTile(int x, int y, Tile tile) {
@@ -146,24 +133,12 @@ public class Map {
         return tiles[x][y];
     }
 
-    public int[] findPlayerStart(){
-        //TODO: Prendre en compte où le joueur est sorti du niveau précédent
-
-        int randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-        int randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-
-        while(tiles[randomX][randomY].getMaterial() != Materials.AIR){
-            randomX = ThreadLocalRandom.current().nextInt(1, width-1);
-            randomY = ThreadLocalRandom.current().nextInt(1, height-1);
-        }
-
-        return new int[]{randomX, randomY};
-
-    }
-
     public ArrayList<Monster> placeMonsters(int[] playerPos, int difficulty){
-        //TODO: Prendre en compte les futur différents types de monstres
         ArrayList<Monster> monsters = new ArrayList<>();
+
+        if(difficulty == 0){
+            return monsters;
+        }
 
         for(int i = 0; i <difficulty; i++){
             int[] pos = findRandomPos(playerPos);
@@ -175,8 +150,11 @@ public class Map {
     }
 
     public ArrayList<Item> placeItems(int[] playerPos, int difficulty){
-        //TODO: Faire en sorte que la porte apparaisse loin du joueur
         ArrayList<Item> items = new ArrayList<>();
+
+        if(difficulty == 0){
+            return items;
+        }
 
         int[] pos;
 
@@ -209,13 +187,11 @@ public class Map {
     }
 
     public Key placeKey(int[] playerPos){
-        // key
         int[] pos = findRandomPos(playerPos);
         return new Key(pos[0], pos[1]);
     }
 
     public ArrayList<Gold> placeGold(int[] playerPos, int difficulty){
-        //Potentiellement différents types de pièces ?
         ArrayList<Gold> gold = new ArrayList<>();
 
         for(int i = 0; i < 5 * difficulty ; i++){
@@ -228,7 +204,6 @@ public class Map {
     }
 
     public int[] placeExit(int[] playerPos){
-        //TODO: Faire en sorte que la porte apparaisse loin du joueur
         int[] pos = findRandomPos(playerPos);
         tiles[pos[0]][pos[1]].texture = new Texture(Gdx.files.internal("textures/porte.png"));
         return pos;
@@ -249,16 +224,11 @@ public class Map {
     }
 
     public void draw(SpriteBatch batch) {
-        float alpha;
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                    tiles[i][j].draw(batch, i * 32, 800 - j * 32, Player.computeLight(i, j));
+                    tiles[i][j].draw(batch, i * 32, 800 - j * 32, isDungeon?Player.computeLight(i, j):1);
             }
         }
-    }
-
-    public void update() {
-
     }
 
     public void dispose() {

@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
     public GameScreen(final GameLauncher game) {
         this.game = game;
 
-        level = 0;
+        level = -1;
 
         player = new Player(0,0);
 
@@ -58,6 +58,8 @@ public class GameScreen implements Screen {
     public GameScreen(final GameLauncher game, Player player){
         this.game = game;
         this.player = player;
+
+        level = -1;
 
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
         music.setLooping(true);
@@ -105,7 +107,9 @@ public class GameScreen implements Screen {
 
         map.draw(game.batch);
         player.draw(game.batch);
-        key.draw(game.batch);
+
+        if(level > 0)
+            key.draw(game.batch);
 
         for(Monster monster : monsters) {
             monster.draw(game.batch);
@@ -142,7 +146,7 @@ public class GameScreen implements Screen {
         }
 
         if(player.x == exitPos[0] && player.y == exitPos[1]){
-            if(player.hasKey) {
+            if(player.hasKey || level == 0) {
                 Gdx.audio.newSound(Gdx.files.internal("sounds/05_door_open_" + (int)(Math.random()*1+1) + ".wav")).play(0.8f);
                 this.loadNextMap();
             }else{
@@ -285,16 +289,23 @@ public class GameScreen implements Screen {
         level++;
 
         int[] playerPos = new int[2];
-        if(level == 1) {
+        if(level == 0) {
+            playerPos[0] = 1;
+            playerPos[1] = 1;
+        }
+        else if(level == 1) {
             playerPos[0] = ThreadLocalRandom.current().nextInt(1, 39);
             playerPos[1] = ThreadLocalRandom.current().nextInt(1, 24);
         }
         else{
             playerPos = exitPos;
         }
-        map = new Map(40,25, playerPos);
+
+        map = new Map(40,25, playerPos, level>0);
+
         player.x = playerPos[0];
         player.y = playerPos[1];
+
         monsters = map.placeMonsters(playerPos, level);
         this.spawns = new ArrayList<>();
         for(Monster monster : monsters){
