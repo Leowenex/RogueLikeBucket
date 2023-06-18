@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -56,6 +57,7 @@ public class Monster extends Entity{
     public void getAttacked(int damage){
         if(!invulnerable){
             this.health -= damage;
+            Gdx.audio.newSound(Gdx.files.internal("sounds/21_orc_damage_" + (int)(Math.random()*2+1) + ".wav")).play(0.8f);
             if(this.health <= 0){
                 this.x = -1000;
                 this.y = -1000;

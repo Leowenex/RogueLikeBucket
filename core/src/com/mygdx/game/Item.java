@@ -37,6 +37,7 @@ public class Item extends Entity{
 
                     if(!this.itemInInventory) {
                         player.inventory.add(this);
+                        Gdx.audio.newSound(Gdx.files.internal("sounds/04_sack_open_" + (int)(Math.random()*2+1) + ".wav")).play(0.8f);
                         System.out.println("Item Collected");
                         this.dynamic_light = false;
                         this.x = -1000;

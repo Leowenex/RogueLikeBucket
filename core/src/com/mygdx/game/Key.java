@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+
 public class Key extends Entity{
 
     public boolean pickable;
@@ -16,6 +18,7 @@ public class Key extends Entity{
         if(player.x == this.x && player.y == this.y) {
             this.x = 39;
             this.y = -1;
+            Gdx.audio.newSound(Gdx.files.internal("sounds/coin/coin." + (int)(Math.random()*11+1) + ".ogg")).play(0.5f);
             this.dynamic_light = false;
             this.pickable = false;
             this.sprite.setSize(40, 40);

@@ -143,6 +143,7 @@ public class GameScreen implements Screen {
 
         if(player.x == exitPos[0] && player.y == exitPos[1]){
             if(player.hasKey) {
+                Gdx.audio.newSound(Gdx.files.internal("sounds/05_door_open_" + (int)(Math.random()*1+1) + ".wav")).play(0.8f);
                 this.loadNextMap();
             }else{
                 game.font.draw(game.batch, "Pick up the key to open the door ! ", Math.max(exitPos[0] * 32 - 80, 0), 800 - exitPos[1] * 32 + 50);
@@ -150,7 +151,7 @@ public class GameScreen implements Screen {
         }
 
         game.font.getData().setScale(1.2f);
-        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory", 1400, 872);
+        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory\n\n\n- ECHAP : Save and quit", 1400, 872);
         game.font.getData().setScale(1f);
 
         game.batch.end();
@@ -243,18 +244,22 @@ public class GameScreen implements Screen {
             if(player.canAttack()) {
                 player.mana -= 1;
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_feu", player.direction));
+                Gdx.audio.newSound(Gdx.files.internal("sounds/18_orc_charge.wav")).play(0.7f);
+
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.G) && player.isInInventory("ice_spell") && player.mana > 0) {
             if(player.canAttack()){
                 player.mana -= 1;
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_glace", player.direction));
+                Gdx.audio.newSound(Gdx.files.internal("sounds/18_orc_charge.wav")).play(0.7f);
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.H) && player.isInInventory("nature_spell") && player.mana > 0) {
             if(player.canAttack()){
                 player.mana -= 1;
                 this.projectiles.add(new Projectile(player.x, player.y, "projectile_nature", player.direction));
+                Gdx.audio.newSound(Gdx.files.internal("sounds/18_orc_charge.wav")).play(0.7f);
             }
         }
 

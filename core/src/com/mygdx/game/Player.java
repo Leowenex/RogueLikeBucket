@@ -101,6 +101,7 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && (this.isInInventory("sword") || this.isInInventory("axe")) && canAttack()){
 
             this.attacking = true;
+            Gdx.audio.newSound(Gdx.files.internal("sounds/07_human_atk_sword_" + (int)(Math.random()*2+1) + ".wav")).play(0.7f);
             this.sprite.setColor(0, 1, 0, 1);
             CompletableFuture.delayedExecutor(250, TimeUnit.MILLISECONDS).execute(() -> this.attacking = false);
 
@@ -112,17 +113,16 @@ public class Player extends Entity {
 
         if(Gdx.input.isKeyPressed(Input.Keys.V)){
             if(player.isInInventory("health_potion")){
-
                 player.inventory.removeIf(item -> item.name.equals("health_potion"));
                 player.health = 10;
+                Gdx.audio.newSound(Gdx.files.internal("sounds/08_human_charge_1.wav")).play(0.7f);
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.B)){
             if(player.isInInventory("mana_potion")){
-
                 player.inventory.removeIf(item -> item.name.equals("mana_potion"));
                 player.mana = 10;
-
+                Gdx.audio.newSound(Gdx.files.internal("sounds/08_human_charge_2.wav")).play(0.7f);
             }
         }
 
@@ -153,6 +153,7 @@ public class Player extends Entity {
             else{
                 this.health -= damage;
             }
+            Gdx.audio.newSound(Gdx.files.internal("sounds/11_human_damage_" + (int)(Math.random()*2+1) + ".wav")).play(0.8f);
             System.out.println("New HP:" + this.health);
             if(this.health <= 0){
                 System.out.println("Game Over");
