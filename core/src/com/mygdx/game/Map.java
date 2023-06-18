@@ -26,14 +26,14 @@ public class Map {
         tiles = new Tile[width][height];
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
-                tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
+                tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
             }
         }
 
         for(int i = 0; i < width; i++) {
             for(int j = 0; j < height; j++) {
                 if(i==0 || i== width-1 || j==0 || j== height-1){
-                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("mur.png")));
+                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/mur.png")));
                 }
             }
 
@@ -41,7 +41,7 @@ public class Map {
 
         for (int x = 1; x < width - 1; x++) {
             for (int y = 1; y < height - 1; y++) {
-                tiles[x][y] = Math.random() < 0.3 ? new Tile(Materials.WALL, new Texture(Gdx.files.internal("mur.png"))) : new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
+                tiles[x][y] = Math.random() < 0.3 ? new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/mur.png"))) : new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
             }
         }
 
@@ -64,7 +64,7 @@ public class Map {
                     walls_around++;
                 }
                 if(walls_around>=4){
-                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
+                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
                 }
             }
         }
@@ -87,7 +87,7 @@ public class Map {
                     walls_around++;
                 }
                 if(walls_around>=3){
-                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("mur.png")));
+                    tiles[i][j] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/mur.png")));
                 }
             }
         }
@@ -96,11 +96,11 @@ public class Map {
         for(int i = playerPos[0]-1; i<playerPos[0]+2; i++){
             for(int j = playerPos[1]-1; j< playerPos[1]+2; j++){
                 if(i!=0 && i!= width-1 && j!=0 && j!= height-1) {
-                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
+                    tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
                 }
             }
         }
-        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("sol.png")));
+        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
 
 
         // METHODE DU COURS
@@ -230,7 +230,7 @@ public class Map {
     public int[] placeExit(int[] playerPos){
         //TODO: Faire en sorte que la porte apparaisse loin du joueur
         int[] pos = findRandomPos(playerPos);
-        tiles[pos[0]][pos[1]].texture = new Texture(Gdx.files.internal("porte.png"));
+        tiles[pos[0]][pos[1]].texture = new Texture(Gdx.files.internal("textures/porte.png"));
         return pos;
 
     }

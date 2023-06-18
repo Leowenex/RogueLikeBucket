@@ -11,6 +11,6 @@ public class NPC extends Entity{
     public NPC(int x, int y, String name,String job) {
         super(x, y, name);
         this.job = job;
-        this.sprite = new Sprite(new Texture(Gdx.files.internal(job + ".png")));
+        this.sprite = new Sprite(new Texture(Gdx.files.internal("textures/"+job + ".png")));
     }
 }

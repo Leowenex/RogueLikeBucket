@@ -122,14 +122,14 @@ public class GameScreen implements Screen {
             spawn.draw(game.batch);
         }
 
-        Sprite gold = new Sprite(new Texture(Gdx.files.internal( "gold.png")));
+        Sprite gold = new Sprite(new Texture(Gdx.files.internal( "textures/gold.png")));
         gold.setSize(32,32);
         gold.setPosition(1300,850);
         gold.draw(game.batch);
         game.font.draw(game.batch, " x " + player.gold, 1340,872);
 
         for (int i=0;i<9;i++){
-            Sprite inventory = new Sprite(new Texture(Gdx.files.internal("inventory_case.png")));
+            Sprite inventory = new Sprite(new Texture(Gdx.files.internal("textures/inventory_case.png")));
             inventory.setSize(80,80);
             inventory.setPosition(1300, 758 - i*90);
             inventory.draw(game.batch);
@@ -293,7 +293,7 @@ public class GameScreen implements Screen {
         monsters = map.placeMonsters(playerPos, level);
         this.spawns = new ArrayList<>();
         for(Monster monster : monsters){
-            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("spawn-monster.png")));
+            Sprite spawn = new Sprite(new Texture(Gdx.files.internal("textures/spawn-monster.png")));
             spawn.setSize(32,32);
             spawn.setPosition(monster.x *32,800 - monster.y*32);
             spawns.add(spawn);

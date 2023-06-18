@@ -19,7 +19,7 @@ public class Entity {
         this.y =y;
         dynamic_light = true;
         this.name = name;
-        this.sprite = new Sprite(new Texture(Gdx.files.internal(name + ".png")));
+        this.sprite = new Sprite(new Texture(Gdx.files.internal("textures/"+name + ".png")));
         this.sprite.setSize(32, 32);
 
     }

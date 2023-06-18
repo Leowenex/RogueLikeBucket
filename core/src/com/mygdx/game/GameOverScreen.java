@@ -29,7 +29,7 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(final GameLauncher game) {
         this.game = game;
 
-        background = new Texture(Gdx.files.internal("game-over-bg.png"));
+        background = new Texture(Gdx.files.internal("backgrounds/game-over-bg.png"));
         shapeRenderer = new ShapeRenderer();
 
         selected = 0;

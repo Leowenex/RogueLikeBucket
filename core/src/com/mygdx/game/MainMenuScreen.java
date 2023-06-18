@@ -29,10 +29,10 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final GameLauncher game) {
         this.game = game;
 
-        background = new Texture(Gdx.files.internal("mainmenu-bg.png"));
+        background = new Texture(Gdx.files.internal("backgrounds/mainmenu-bg.png"));
         shapeRenderer = new ShapeRenderer();
 
-        selected = 0;
+        selected = 1;
 
         lastSwitch = TimeUtils.nanoTime();
 

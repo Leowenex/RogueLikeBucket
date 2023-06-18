@@ -46,8 +46,8 @@ public class Player extends Entity {
         this.attacking = false;
         this.hasKey = false;
 
-        this.heartTex = new Texture(Gdx.files.internal("PV.png"));
-        this.manaTex = new Texture(Gdx.files.internal("PM.png"));
+        this.heartTex = new Texture(Gdx.files.internal("textures/PV.png"));
+        this.manaTex = new Texture(Gdx.files.internal("textures/PM.png"));
 
         this.lastMoveTime = TimeUtils.nanoTime();
         this.lastAttackTime = TimeUtils.nanoTime();
