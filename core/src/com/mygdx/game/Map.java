@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Map {
 
-    public Tile[][] tiles;
+    private final Tile[][] tiles;
     public int width;
     public int height;
     public String[] weapons = {"sword","axe"};
@@ -123,10 +123,6 @@ public class Map {
         }
 
         tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
-    }
-
-    public void setTile(int x, int y, Tile tile) {
-        tiles[x][y] = tile;
     }
 
     public Tile getTile(int x, int y) {
