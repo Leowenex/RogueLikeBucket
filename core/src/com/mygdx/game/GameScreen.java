@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 
         player = new Player(0,0);
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));
         music.setLooping(true);
         music.setVolume(0.3f);
 
@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
 
         level = -1;
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));
         music.setLooping(true);
         music.setVolume(0.3f);
 
@@ -284,9 +284,11 @@ public class GameScreen implements Screen {
     public void loadNextMap(){
 
         player.hasKey = false;
-        if(map!=null)
+        if(map!=null) {
             map.dispose();
+        }
         level++;
+
 
         int[] playerPos = new int[2];
         if(level == 0) {
@@ -296,6 +298,11 @@ public class GameScreen implements Screen {
         else if(level == 1) {
             playerPos[0] = ThreadLocalRandom.current().nextInt(1, 39);
             playerPos[1] = ThreadLocalRandom.current().nextInt(1, 24);
+            music.stop();
+            music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
+            music.setLooping(true);
+            music.setVolume(0.5f);
+            music.play();
         }
         else{
             playerPos = exitPos;
