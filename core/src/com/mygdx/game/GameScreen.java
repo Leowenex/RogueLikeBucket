@@ -43,7 +43,6 @@ public class GameScreen implements Screen {
         level = -1;
 
         player = new Player(0,0);
-        player.gold=100000;
 
         npcs = new ArrayList<>();
 

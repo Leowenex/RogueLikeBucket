@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Monster extends Entity{
 
-    private int health =3;
+    private int health = 3;
     private boolean alive;
 
     private long lastMoveTime;
