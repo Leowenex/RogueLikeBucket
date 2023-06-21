@@ -20,8 +20,14 @@ public class Item extends Entity{
         this.cost = cost;
         this.pickable=true;
         this.displayText=true;
-
         this.itemInInventory = false;
+    }
+
+    public Item(Item i){
+        super(i.x,i.y,i.name);
+        this.cost = i.cost;
+        this.displayText = i.displayText;
+        this.itemInInventory = i.itemInInventory;
     }
 
     public void update(Player player) {

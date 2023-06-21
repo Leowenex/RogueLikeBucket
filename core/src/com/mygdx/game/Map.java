@@ -153,7 +153,7 @@ public class Map {
 
                         break;
                     case '1':
-                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/mur.png")));
+                        tiles[j][i] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/mur.png")));
 
                         break;
                     case '2':

@@ -43,6 +43,7 @@ public class GameScreen implements Screen {
         level = -1;
 
         player = new Player(0,0);
+        player.gold=100000;
 
         npcs = new ArrayList<>();
 
@@ -117,7 +118,7 @@ public class GameScreen implements Screen {
         if(level > 0)
             key.draw(game.batch);
         for(NPC npc : npcs){
-            npc.draw(game.batch);
+            npc.draw(game.batch, game.font);
         }
         for(Monster monster : monsters) {
             monster.draw(game.batch);
@@ -301,11 +302,11 @@ public class GameScreen implements Screen {
 
         int[] playerPos = new int[2];
         if(level == 0) {
-            playerPos[0] = 10;
+            playerPos[0] = 30;
             playerPos[1] = 12;
 
             npcs.add(new NPC(20,22,"marchand","marchand"));
-            npcs.add(new NPC(30,12,"traveler","traveler"));
+            npcs.add(new NPC(10,12,"traveler","traveler"));
 
         }
         else if(level == 1) {
