@@ -292,8 +292,8 @@ public class GameScreen implements Screen {
 
         int[] playerPos = new int[2];
         if(level == 0) {
-            playerPos[0] = 1;
-            playerPos[1] = 1;
+            playerPos[0] = 10;
+            playerPos[1] = 10;
         }
         else if(level == 1) {
             playerPos[0] = ThreadLocalRandom.current().nextInt(1, 39);

@@ -26,7 +26,6 @@ public class Map {
 
         this.isDungeon = isDungeon;
 
-
         tiles = new Tile[width][height];
 
         if(isDungeon){
@@ -116,14 +115,62 @@ public class Map {
     }
 
     public void generateField(int[] playerPos){
-        for(int i = 0; i < width; i++) {
-            for(int j = 0; j < height; j++) {
-                tiles[i][j] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/grass.png")));
+
+        String[] texture = new String[]{
+                "0000000000000000000000000000000000000000",
+                "0000000000000001111111111100000000000000",
+                "0000000000000112222222222211000000000000",
+                "0000000000001222222222222222100000000000",
+                "0000000000012222222222222222210000000000",
+                "0000000000122222222222222222221000000000",
+                "0000000000122222222222222222221000000000",
+                "0000000001222222222222222222222100000000",
+                "0000000001222222222222222222222100000000",
+                "0000000012222222222222222222222210000000",
+                "0000000012222222222222222222222210000000",
+                "0000000012222222222222222222222210000000",
+                "0000000012222222222222222222222210000000",
+                "0000000012222222222222222222222210000000",
+                "0000000012222222222222222222222210000000",
+                "0000000012222222222222222222222210000000",
+                "0000000001222222222222222222222100000000",
+                "0000000001222222222222222222222100000000",
+                "0000000000122222222222222222221000000000",
+                "0000000000122222222222222222221000000000",
+                "0000000000012222222222222222210000000000",
+                "0000000000001222222222222222100000000000",
+                "0000000000000112222222222211000000000000",
+                "0000000000000001111111111100000000000000",
+                "0000000000000000000000000000000000000000",
+        };
+
+        for(int i = 0; i < texture.length; i++) {
+            for(int j = 0; j < texture[i].length(); j++) {
+                char c = texture[i].charAt(j);
+                switch (c) {
+                    case '0':
+                        tiles[j][i] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/water.png")));
+
+                        break;
+                    case '1':
+                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sand.png")));
+
+                        break;
+                    case '2':
+                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
+
+                        break;
+                    default:
+                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/grass.png")));
+                        break;
+                }
             }
         }
-
-        tiles[playerPos[0]][playerPos[1]] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
     }
+
+
+
+
 
     public Tile getTile(int x, int y) {
         return tiles[x][y];
@@ -200,10 +247,15 @@ public class Map {
     }
 
     public int[] placeExit(int[] playerPos){
+
+        if(!isDungeon){
+            tiles[20][20].texture = new Texture(Gdx.files.internal("textures/porte.png"));
+            return new int[]{20,20};
+
+        }
         int[] pos = findRandomPos(playerPos);
         tiles[pos[0]][pos[1]].texture = new Texture(Gdx.files.internal("textures/porte.png"));
         return pos;
-
     }
 
     public int[] findRandomPos(int[] playerPos){
