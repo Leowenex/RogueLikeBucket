@@ -17,7 +17,7 @@ public class Monster extends Entity{
     private boolean invulnerable;
 
     public Monster(int x, int y) {
-        super(x,y,"player");
+        super(x,y,"monster");
         this.alive = true;
         lastMoveTime = TimeUtils.nanoTime();
         this.invulnerable = false;

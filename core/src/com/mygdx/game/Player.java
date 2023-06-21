@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -78,21 +79,29 @@ public class Player extends Entity {
         if (TimeUtils.nanoTime() - lastMoveTime > move_delay) {
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && map.getTile(x - 1,y).getMaterial() != Materials.WALL) {
                 lastMoveTime = TimeUtils.nanoTime();
+                player.sprite = new Sprite(new Texture(Gdx.files.internal("textures/player_left.png")));
+                player.sprite.setSize(16,32);
                 player.direction = "left";
                 this.x -= 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && map.getTile(x + 1,y).getMaterial() != Materials.WALL) {
                 lastMoveTime = TimeUtils.nanoTime();
+                player.sprite = new Sprite(new Texture(Gdx.files.internal("textures/player_right.png")));
+                player.sprite.setSize(16,32);
                 player.direction = "right";
                 this.x += 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.UP) && map.getTile(x,y - 1).getMaterial() != Materials.WALL) {
                 lastMoveTime = TimeUtils.nanoTime();
+                player.sprite = new Sprite(new Texture(Gdx.files.internal("textures/player_back.png")));
+                player.sprite.setSize(16,32);
                 player.direction = "up";
                 this.y -= 1;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && map.getTile(x,y + 1).getMaterial() != Materials.WALL) {
                 lastMoveTime = TimeUtils.nanoTime();
+                player.sprite = new Sprite(new Texture(Gdx.files.internal("textures/player.png")));
+                player.sprite.setSize(16,32);
                 player.direction = "down";
                 this.y += 1;
             }
