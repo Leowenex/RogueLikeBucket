@@ -8,8 +8,13 @@ public class NPC extends Entity{
 
     String job;
 
+    public void update(Player player){
+
+    }
+
     public NPC(int x, int y, String name,String job) {
-        super(x, y, name);
+        super(x, y, job);
+        dynamic_light = false;
         this.job = job;
         this.sprite = new Sprite(new Texture(Gdx.files.internal("textures/"+job + ".png")));
     }

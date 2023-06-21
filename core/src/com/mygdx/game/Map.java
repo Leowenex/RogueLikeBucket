@@ -153,15 +153,15 @@ public class Map {
 
                         break;
                     case '1':
-                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sand.png")));
+                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/mur.png")));
 
                         break;
                     case '2':
-                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
+                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/grass.png")));
 
                         break;
                     default:
-                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/grass.png")));
+                        tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
                         break;
                 }
             }
@@ -249,8 +249,8 @@ public class Map {
     public int[] placeExit(int[] playerPos){
 
         if(!isDungeon){
-            tiles[20][20].texture = new Texture(Gdx.files.internal("textures/porte.png"));
-            return new int[]{20,20};
+            tiles[20][2].texture = new Texture(Gdx.files.internal("textures/porte.png"));
+            return new int[]{20,2};
 
         }
         int[] pos = findRandomPos(playerPos);

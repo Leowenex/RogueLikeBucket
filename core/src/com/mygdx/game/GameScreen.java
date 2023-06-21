@@ -26,6 +26,8 @@ public class GameScreen implements Screen {
     Player player;
 
     ArrayList<Monster> monsters;
+
+    ArrayList<NPC> npcs;
     ArrayList<Item> items;
     ArrayList<Sprite> spawns;
     ArrayList<Gold> coins;
@@ -41,6 +43,8 @@ public class GameScreen implements Screen {
         level = -1;
 
         player = new Player(0,0);
+
+        npcs = new ArrayList<>();
 
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));
         music.setLooping(true);
@@ -110,7 +114,9 @@ public class GameScreen implements Screen {
 
         if(level > 0)
             key.draw(game.batch);
-
+        for(NPC npc : npcs){
+            npc.draw(game.batch);
+        }
         for(Monster monster : monsters) {
             monster.draw(game.batch);
         }
@@ -163,6 +169,9 @@ public class GameScreen implements Screen {
 
     public void handleUpdates(){
         player.update(map);
+        for(NPC npc : npcs){
+            npc.update(player);
+        }
         for(Monster monster : monsters){
             monster.update(player);
         }
@@ -293,9 +302,14 @@ public class GameScreen implements Screen {
         int[] playerPos = new int[2];
         if(level == 0) {
             playerPos[0] = 10;
-            playerPos[1] = 10;
+            playerPos[1] = 12;
+
+            npcs.add(new NPC(20,22,"marchand","marchand"));
+            npcs.add(new NPC(30,12,"traveler","traveler"));
+
         }
         else if(level == 1) {
+            npcs.clear();
             playerPos[0] = ThreadLocalRandom.current().nextInt(1, 39);
             playerPos[1] = ThreadLocalRandom.current().nextInt(1, 24);
             music.stop();
