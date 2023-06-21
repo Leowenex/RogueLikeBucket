@@ -64,6 +64,8 @@ public class GameScreen implements Screen {
         this.game = game;
         this.player = player;
 
+        npcs = new ArrayList<>();
+
         level = -1;
 
         music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));

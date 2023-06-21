@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class NPC extends Entity{
     String job;
     boolean pauvre;
     protected boolean displayText;
+    private long lastClickTime;
 
     public static ArrayList<Item> ItemsList= new ArrayList<>(List.of(
             new Weapon("sword", 10, -10,-10,1),
@@ -38,6 +40,7 @@ public class NPC extends Entity{
         dynamic_light = false;
         this.job = job;
         pauvre = false;
+        lastClickTime = TimeUtils.nanoTime();
         this.sprite = new Sprite(new Texture(Gdx.files.internal("textures/"+job + ".png")));
     }
 
@@ -63,11 +66,12 @@ public class NPC extends Entity{
             }
 
 
-            if(Gdx.input.isKeyPressed(Input.Keys.Q) && shopItems.size()>0){
+            if(Gdx.input.isKeyPressed(Input.Keys.Q) && shopItems.size()>0 && TimeUtils.nanoTime() - lastClickTime > 1000000000){
                 if(player.gold >= shopItems.get(0).cost){
                     player.inventory.add(new Item(shopItems.get(0)));
                     player.gold -= shopItems.get(0).cost;
                     pauvre=false;
+                    lastClickTime = TimeUtils.nanoTime();
                     displayText=false;
                     shopItems.clear();
                 }
@@ -75,11 +79,12 @@ public class NPC extends Entity{
                     pauvre = true;
                 }
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.W) && shopItems.size()>1){
+            if(Gdx.input.isKeyPressed(Input.Keys.W) && shopItems.size()>1 && TimeUtils.nanoTime() - lastClickTime > 1000000000){
                 if(player.gold >= shopItems.get(1).cost){
                     player.inventory.add(new Item(shopItems.get(1)));
                     player.gold -= shopItems.get(1).cost;
                     pauvre=false;
+                    lastClickTime = TimeUtils.nanoTime();
                     displayText=false;
                     shopItems.clear();
                 }
@@ -87,11 +92,12 @@ public class NPC extends Entity{
                     pauvre = true;
                 }
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.E) && shopItems.size()>2){
+            if(Gdx.input.isKeyPressed(Input.Keys.E) && shopItems.size()>2 && TimeUtils.nanoTime() - lastClickTime > 1000000000){
                 if(player.gold >= shopItems.get(2).cost){
                     player.inventory.add(new Item(shopItems.get(2)));
                     player.gold -= shopItems.get(2).cost;
                     pauvre=false;
+                    lastClickTime = TimeUtils.nanoTime();
                     displayText=false;
                     shopItems.clear();
                 }

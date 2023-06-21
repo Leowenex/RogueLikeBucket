@@ -43,7 +43,7 @@ public class Projectile extends Entity{
             this.lastMoveTime = TimeUtils.nanoTime();
             for(Monster monster : monsters){
                 if(this.x == monster.x && this.y == monster.y){
-                    monster.getAttacked(1);
+                    monster.getAttacked(3);
                     this.active = false;
                     this.dispose();
                 }
