@@ -110,7 +110,9 @@ public class GameScreen implements Screen {
         game.batch.begin();
 
         map.draw(game.batch);
-        player.draw(game.batch);
+        for(Sprite spawn: spawns){
+            spawn.draw(game.batch);
+        }
 
         if(level > 0)
             key.draw(game.batch);
@@ -121,16 +123,14 @@ public class GameScreen implements Screen {
             monster.draw(game.batch);
         }
         for (Item item : items)
-            item.draw(game.batch, game.font);
+            item.draw(player, game.batch, game.font);
         for (Gold coin : coins){
             coin.draw(game.batch);
         }
         for (Projectile projectile : projectiles){
             projectile.draw(game.batch);
         }
-        for(Sprite spawn: spawns){
-            spawn.draw(game.batch);
-        }
+        player.draw(game.batch);
 
         Sprite gold = new Sprite(new Texture(Gdx.files.internal( "textures/gold.png")));
         gold.setSize(32,32);
@@ -161,7 +161,7 @@ public class GameScreen implements Screen {
         }
 
         game.font.getData().setScale(1.2f);
-        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory\n\n\n- ECHAP : Save and quit", 1400, 872);
+        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory\n\n\n- ECHAP : Save and quit", 1400, 830);
         game.font.getData().setScale(1f);
 
         game.batch.end();

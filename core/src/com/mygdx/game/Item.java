@@ -51,30 +51,27 @@ public class Item extends Entity{
         }
     }
 
-    public void checkIfInInventory(Player player){
-
-        this.itemInInventory = false;
+    public boolean checkIfInInventory(Player player){
 
         if(this.name.equals("sword")||this.name.equals("axe")) {
             for (int i = 0; i < player.inventory.size(); i++) {
                 if (player.inventory.get(i).name.equals("sword") || player.inventory.get(i).name.equals("axe")){
-                    this.itemInInventory = true;
-                    break;
+                    return true;
                 }
             }
         }else{
             for (int i = 0; i < player.inventory.size(); i++) {
                 if (player.inventory.get(i).name.equals(this.name)) {
-                    this.itemInInventory = true;
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    public void draw(SpriteBatch batch, BitmapFont font ) {
+    public void draw(Player player,SpriteBatch batch, BitmapFont font ) {
         if(this.displayText){
-            if(this.itemInInventory){
+            if(this.checkIfInInventory(player)){
                 font.draw(batch, this.name + " : Already have item of same type in inventory", x * 32, 800 - y*32 + 64);
             }
             else{
