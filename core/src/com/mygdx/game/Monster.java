@@ -24,7 +24,7 @@ public class Monster extends Entity{
     }
 
     public void update(Player player) {
-        if(!this.isAlive()){
+        if(this.isDead()){
             return;
         }
         if (TimeUtils.nanoTime() - lastMoveTime > 750000000) {
@@ -71,7 +71,7 @@ public class Monster extends Entity{
     }
 
     public void draw(SpriteBatch batch){
-        if(!this.isAlive()){
+        if(this.isDead()){
             return;
         }
         if(this.invulnerable)
@@ -82,8 +82,8 @@ public class Monster extends Entity{
         super.draw(batch);
     }
 
-    public boolean isAlive(){
-        return this.alive;
+    public boolean isDead(){
+        return !this.alive;
     }
 
 }

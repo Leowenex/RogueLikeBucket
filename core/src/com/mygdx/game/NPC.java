@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,10 +32,10 @@ public class NPC extends Entity{
             new Item("nature_spell", 50, -10,-10)
     ));
 
-    private ArrayList<Item> shopItems = new ArrayList<>();
+    private final ArrayList<Item> shopItems = new ArrayList<>();
 
     public NPC(int x, int y, String name,String job) {
-        super(x, y, job);
+        super(x, y, name);
         dynamic_light = false;
         this.job = job;
         pauvre = false;
@@ -44,65 +43,67 @@ public class NPC extends Entity{
         this.sprite = new Sprite(new Texture(Gdx.files.internal("textures/"+job + ".png")));
     }
 
-    public void update(Player player) {
+    public void update(Player player, Map map) {
 
 
         if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
 
+
             if(!displayText){
                 displayText = true;
-                Item item;
 
-                for(int i=0; i<(9-player.inventory.size());i++){
-                    do {
-                        item = new Item(ItemsList.get(ThreadLocalRandom.current().nextInt(0, 10)));
+                if(job.equals("marchand")){
+                    Item item;
 
-                    }while (
+                    for(int i=0; i<(9-player.inventory.size());i++){
+                        do {
+                            item = new Item(ItemsList.get(ThreadLocalRandom.current().nextInt(0, 10)));
 
-                            item.checkIfInInventory(player)
-                    );
-                    shopItems.add(item);
+                        }while (
+
+                                item.checkIfInInventory(player)
+                        );
+                        shopItems.add(item);
+                    }
                 }
             }
 
-
-            if(Gdx.input.isKeyPressed(Input.Keys.Q) && shopItems.size()>0 && TimeUtils.nanoTime() - lastClickTime > 1000000000){
-                if(player.gold >= shopItems.get(0).cost){
-                    player.inventory.add(new Item(shopItems.get(0)));
-                    player.gold -= shopItems.get(0).cost;
-                    pauvre=false;
-                    lastClickTime = TimeUtils.nanoTime();
-                    displayText=false;
-                    shopItems.clear();
+            if(job.equals("marchand")) {
+                if (Gdx.input.isKeyPressed(Input.Keys.Q) && shopItems.size() > 0 && TimeUtils.nanoTime() - lastClickTime > 1000000000) {
+                    if (player.gold >= shopItems.get(0).cost) {
+                        player.inventory.add(new Item(shopItems.get(0)));
+                        player.gold -= shopItems.get(0).cost;
+                        pauvre = false;
+                        lastClickTime = TimeUtils.nanoTime();
+                        displayText = false;
+                        shopItems.clear();
+                    } else {
+                        pauvre = true;
+                    }
                 }
-                else {
-                    pauvre = true;
+                if (Gdx.input.isKeyPressed(Input.Keys.W) && shopItems.size() > 1 && TimeUtils.nanoTime() - lastClickTime > 1000000000) {
+                    if (player.gold >= shopItems.get(1).cost) {
+                        player.inventory.add(new Item(shopItems.get(1)));
+                        player.gold -= shopItems.get(1).cost;
+                        pauvre = false;
+                        lastClickTime = TimeUtils.nanoTime();
+                        displayText = false;
+                        shopItems.clear();
+                    } else {
+                        pauvre = true;
+                    }
                 }
-            }
-            if(Gdx.input.isKeyPressed(Input.Keys.W) && shopItems.size()>1 && TimeUtils.nanoTime() - lastClickTime > 1000000000){
-                if(player.gold >= shopItems.get(1).cost){
-                    player.inventory.add(new Item(shopItems.get(1)));
-                    player.gold -= shopItems.get(1).cost;
-                    pauvre=false;
-                    lastClickTime = TimeUtils.nanoTime();
-                    displayText=false;
-                    shopItems.clear();
-                }
-                else {
-                    pauvre = true;
-                }
-            }
-            if(Gdx.input.isKeyPressed(Input.Keys.E) && shopItems.size()>2 && TimeUtils.nanoTime() - lastClickTime > 1000000000){
-                if(player.gold >= shopItems.get(2).cost){
-                    player.inventory.add(new Item(shopItems.get(2)));
-                    player.gold -= shopItems.get(2).cost;
-                    pauvre=false;
-                    lastClickTime = TimeUtils.nanoTime();
-                    displayText=false;
-                    shopItems.clear();
-                }
-                else {
-                    pauvre = true;
+                if (Gdx.input.isKeyPressed(Input.Keys.E) && shopItems.size() > 2 && TimeUtils.nanoTime() - lastClickTime > 1000000000) {
+                    if (player.gold >= shopItems.get(2).cost) {
+                        player.inventory.add(new Item(shopItems.get(2)));
+                        player.gold -= shopItems.get(2).cost;
+                        pauvre = false;
+                        lastClickTime = TimeUtils.nanoTime();
+                        displayText = false;
+                        shopItems.clear();
+                    } else {
+                        pauvre = true;
+                    }
                 }
             }
 
@@ -110,6 +111,34 @@ public class NPC extends Entity{
             displayText = false;
             shopItems.clear();
             pauvre = false;
+        }
+
+        if(job.equals("traveler") && TimeUtils.nanoTime() - lastClickTime > 1000000000){
+            //NPC go in a random direction
+            lastClickTime = TimeUtils.nanoTime();
+            int random = ThreadLocalRandom.current().nextInt(0, 4);
+            switch (random){
+                case 0:
+                    if(map.getTile(x+1,y).material == Materials.AIR && player.x != x+1 && player.y != y){
+                        x++;
+                    }
+                    break;
+                case 1:
+                    if(map.getTile(x-1,y).material == Materials.AIR && player.x != x-1 && player.y != y){
+                        x--;
+                    }
+                    break;
+                case 2:
+                    if(map.getTile(x,y+1).material == Materials.AIR && player.x != x && player.y != y+1){
+                        y++;
+                    }
+                    break;
+                case 3:
+                    if(map.getTile(x,y-1).material == Materials.AIR && player.x != x && player.y != y-1){
+                        y--;
+                    }
+                    break;
+            }
         }
     }
 

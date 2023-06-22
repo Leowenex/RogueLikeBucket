@@ -173,7 +173,7 @@ public class GameScreen implements Screen {
     public void handleUpdates(){
         player.update(map);
         for(NPC npc : npcs){
-            npc.update(player);
+            npc.update(player, map);
         }
         for(Monster monster : monsters){
             monster.update(player);
