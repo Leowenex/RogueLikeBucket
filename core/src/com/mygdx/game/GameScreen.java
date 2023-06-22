@@ -164,7 +164,7 @@ public class GameScreen implements Screen {
         }
 
         game.font.getData().setScale(1.2f);
-        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory\n\n\n- ECHAP : Save and quit", 1400, 830);
+        game.font.draw(game.batch, "Keys to press :\n\n- SPACE : attack\n\n- M : mute music\n\n- V : consume health \npotion\n\n- B : consume mana \npotion\n\n- F : cast a fire spell\n\n- G : cast an ice spell\n\n- H : cast a nature spell\n\n- 1-9 : drop the nth item\nin the inventory\n\n- A : Buy the first item\nfrom the merchant\n\n- Z : Buy the second item\nfrom the merchant\n\n- E : Buy the third item\nfrom the merchant\n\n\n- ECHAP : Save and quit", 1400, 830);
         game.font.getData().setScale(1f);
 
         game.batch.end();
