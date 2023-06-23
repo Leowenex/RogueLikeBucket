@@ -20,6 +20,7 @@ public class Player extends Entity {
 
     public int health;
     public int mana;
+    public int level;
     private boolean invulnerable;
     public boolean attacking;
     public boolean hasKey;
@@ -40,6 +41,8 @@ public class Player extends Entity {
         this.gold = 0;
         this.health = 10;
         this.mana=10;
+
+        this.level = 1;
 
         this.inventory = new ArrayList<>();
 
