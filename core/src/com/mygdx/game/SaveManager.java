@@ -8,6 +8,8 @@ public class SaveManager {
         Preferences prefs = Gdx.app.getPreferences("Character");
         prefs.putInteger("health", player.getHealth());
         prefs.putInteger("gold", player.gold);
+        prefs.putInteger("mana", player.mana);
+        prefs.putInteger("level", player.level);
 
         StringBuilder inventory = new StringBuilder();
         for(Item item : player.inventory){
@@ -21,8 +23,12 @@ public class SaveManager {
         Preferences prefs = Gdx.app.getPreferences("Character");
         Player player = new Player(0,0);
         player.health = prefs.getInteger("health");
-        if(player.health <= 0)
+        player.mana = prefs.getInteger("mana");
+        player.level = prefs.getInteger("level");
+
+        if(player.health <= 0) // case where no save is found (no value = 0)
             return new Player(2,2);
+
         player.gold = prefs.getInteger("gold");
         String[] inventory = prefs.getString("inventory").split(",");
         for(String itemName : inventory){
