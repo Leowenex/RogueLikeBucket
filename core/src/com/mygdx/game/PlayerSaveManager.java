@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-public class SaveManager {
+public class PlayerSaveManager {
     public static void saveCharacter(Player player){
         Preferences prefs = Gdx.app.getPreferences("Character");
         prefs.putInteger("health", player.getHealth());

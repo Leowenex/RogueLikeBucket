@@ -98,6 +98,7 @@ public class GameScreen implements Screen {
         handleDraws();
 
         if(player.getHealth()<=0){
+            ScoreSaveManager.saveScore(player.level);
             game.setScreen(new GameOverScreen(game));
             this.dispose();
         }
@@ -279,7 +280,7 @@ public class GameScreen implements Screen {
         }
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
-            SaveManager.saveCharacter(player);
+            PlayerSaveManager.saveCharacter(player);
             game.setScreen(new MainMenuScreen(game));
             this.dispose();
         }

@@ -98,7 +98,7 @@ public class MainMenuScreen implements Screen {
                     dispose();
                     break;
                 case 1:
-                    game.setScreen(new GameScreen(game, SaveManager.loadCharacter()));
+                    game.setScreen(new GameScreen(game, PlayerSaveManager.loadCharacter()));
                     dispose();
                     break;
                 case 2:
