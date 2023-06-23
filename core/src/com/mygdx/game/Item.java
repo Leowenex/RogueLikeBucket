@@ -26,6 +26,7 @@ public class Item extends Entity{
     public Item(Item i){
         super(i.x,i.y,i.name);
         this.cost = i.cost;
+        this.pickable = i.pickable;
         this.displayText = i.displayText;
         this.itemInInventory = i.itemInInventory;
     }
@@ -37,7 +38,7 @@ public class Item extends Entity{
         if(Math.abs(player.x - this.x) <= 1 && Math.abs(player.y - this.y) <= 1){
             displayText = true;
 
-            checkIfInInventory(player);
+            itemInInventory = checkIfInInventory(player);
 
             if(Gdx.input.isKeyPressed(Input.Keys.P)){
 

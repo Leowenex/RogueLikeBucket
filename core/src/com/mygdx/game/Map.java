@@ -139,7 +139,7 @@ public class Map {
                 "0000000000122222222222222222221000000000",
                 "0000000000012222222222222222210000000000",
                 "0000000000001222222222222222100000000000",
-                "0000000000000112222222222211000000000000",
+                "0000000000000112222322222211000000000000",
                 "0000000000000001111111111100000000000000",
                 "0000000000000000000000000000000000000000",
         };
@@ -150,15 +150,15 @@ public class Map {
                 switch (c) {
                     case '0':
                         tiles[j][i] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/water.png")));
-
                         break;
                     case '1':
                         tiles[j][i] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/mur.png")));
-
                         break;
                     case '2':
                         tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/grass.png")));
-
+                        break;
+                    case '3':
+                        tiles[j][i] = new Tile(Materials.WALL, new Texture(Gdx.files.internal("textures/store.png")));
                         break;
                     default:
                         tiles[j][i] = new Tile(Materials.AIR, new Texture(Gdx.files.internal("textures/sol.png")));
