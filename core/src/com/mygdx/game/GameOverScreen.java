@@ -26,6 +26,8 @@ public class GameOverScreen implements Screen {
 
     int selected;
 
+    int[] scores;
+
     public GameOverScreen(final GameLauncher game) {
         this.game = game;
 
@@ -42,6 +44,8 @@ public class GameOverScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1600, 900);
+
+        scores = ScoreSaveManager.loadScore();
     }
 
 
@@ -59,6 +63,8 @@ public class GameOverScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(background, 0, 0);
+        game.font.draw(game.batch, "Your Hi-Score : " + scores[0], 900, 385);
+        game.font.draw(game.batch, "Your Score : " + scores[1], 600, 385);
         game.batch.end();
 
         switch (selected) {

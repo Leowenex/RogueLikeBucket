@@ -39,16 +39,13 @@ public class GameScreen implements Screen {
 
     public GameScreen(final GameLauncher game) {
         this.game = game;
-
-        level = -1;
-
         player = new Player(0,0);
+
+        music = null;
 
         npcs = new ArrayList<>();
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));
-        music.setLooping(true);
-        music.setVolume(0.3f);
+        level = -1;
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
@@ -63,13 +60,11 @@ public class GameScreen implements Screen {
         this.game = game;
         this.player = player;
 
+        music = null;
+
         npcs = new ArrayList<>();
 
         level = -1;
-
-        music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));
-        music.setLooping(true);
-        music.setVolume(0.3f);
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
@@ -102,6 +97,7 @@ public class GameScreen implements Screen {
         handleDraws();
 
         if(player.getHealth()<=0){
+            ScoreSaveManager.saveScore(player.level);
             game.setScreen(new GameOverScreen(game));
             this.dispose();
         }
@@ -139,6 +135,10 @@ public class GameScreen implements Screen {
         gold.setPosition(1300,850);
         gold.draw(game.batch);
         game.font.draw(game.batch, " x " + player.gold, 1340,872);
+
+        game.font.draw(game.batch, "Level :  " + (level==0?"Town":(level+"/"+ player.level*3)), 1000, 870);
+
+        game.font.draw(game.batch, "Player level : " + player.level, 1150, 870);
 
         for (int i=0;i<9;i++){
             Sprite inventory = new Sprite(new Texture(Gdx.files.internal("textures/inventory_case.png")));
@@ -279,7 +279,7 @@ public class GameScreen implements Screen {
         }
 
         if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
-            SaveManager.saveCharacter(player);
+            PlayerSaveManager.saveCharacter(player);
             game.setScreen(new MainMenuScreen(game));
             this.dispose();
         }
@@ -298,7 +298,14 @@ public class GameScreen implements Screen {
         if(map!=null) {
             map.dispose();
         }
-        level++;
+
+        //Depending on the current dungeon level and the player level, we continue into the dungeon, or we go back to the town
+        if(level < player.level*3){
+            level++;
+        } else {
+            level = 0;
+            player.level++;
+        }
 
 
         int[] playerPos = new int[2];
@@ -309,12 +316,19 @@ public class GameScreen implements Screen {
             npcs.add(new NPC(20,22,"marchand","marchand"));
             npcs.add(new NPC(10,12,"traveler","traveler"));
 
+            if(music != null) music.stop();
+            music = Gdx.audio.newMusic(Gdx.files.internal("musics/InTheCastle.ogg"));
+            music.setLooping(true);
+            music.setVolume(0.3f);
+            music.play();
+
         }
         else if(level == 1) {
             npcs.clear();
             playerPos[0] = ThreadLocalRandom.current().nextInt(1, 39);
             playerPos[1] = ThreadLocalRandom.current().nextInt(1, 24);
             music.stop();
+
             music = Gdx.audio.newMusic(Gdx.files.internal("musics/DarkDungeon.ogg"));
             music.setLooping(true);
             music.setVolume(0.5f);
