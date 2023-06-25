@@ -145,15 +145,16 @@ public class NPC extends Entity{
     public void draw(SpriteBatch batch, BitmapFont font ) {
         if(this.displayText){
             if(job.equals("marchand")){
-                String line0 = shopItems.size()>0? shopItems.get(0).name+", "+shopItems.get(0).cost+"golds\n" :"empty\n";
-                String line1 = shopItems.size()>1? shopItems.get(1).name+", "+shopItems.get(1).cost+"golds\n" :"empty\n";
-                String line2 = shopItems.size()>2? shopItems.get(2).name+", "+shopItems.get(2).cost+"golds\n" :"empty\n";
 
+                if(pauvre){
+                    font.draw(batch,"Sorry, go get some golds first",x * 32, 800 - y*32 + 55);
+                } else {
+                    String line0 = shopItems.size()>0? shopItems.get(0).name+", "+shopItems.get(0).cost+"golds\n" :"empty\n";
+                    String line1 = shopItems.size()>1? shopItems.get(1).name+", "+shopItems.get(1).cost+"golds\n" :"empty\n";
+                    String line2 = shopItems.size()>2? shopItems.get(2).name+", "+shopItems.get(2).cost+"golds\n" :"empty\n";
 
-                font.draw(batch,"Hello my friend, these are the items available for purchase : \n" + line0  +line1 + line2,x * 32 - 100, 800 - y*32 + 120);
-                    if(pauvre){
-                        font.draw(batch,"Go get some golds first",x * 32, 800 - y*32 + 55);
-                    }
+                    font.draw(batch,"Hello my friend, these are the items available for purchase : \n" + line0  +line1 + line2,x * 32 - 100, 800 - y*32 + 120);
+                }
 
             }else {
                 font.draw(batch,"Hello, please go defeat all the monsters in the north",x * 32, 800 - y*32 + 64);
