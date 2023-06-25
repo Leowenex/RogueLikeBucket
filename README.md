@@ -10,7 +10,7 @@
 
 # Ouverture du programme sous forme de .jar :
 
-  Pour exécuter le programme sous forme d’archive .jar (il apparait dans le dossier : desktop -> build -> libs après avoir entré la commande citée précedemment), il suffit de s’assurer d’avoir Java 11 ou une version ultérieure installé sur son ordinateur et double cliquer dessus, ou en entrant la commande « java -jar <nom_de_l’_archive> yyyy».
+  Pour exécuter le programme sous forme d’archive .jar (il apparait dans le dossier : desktop -> build -> libs après avoir entré la commande citée précedemment), il suffit de s’assurer d’avoir Java 11 ou une version ultérieure installé sur son ordinateur et double cliquer dessus, ou en entrant la commande « java -jar <nom_de_l’_archive>».
 
 # Utilisation du programme :
 
