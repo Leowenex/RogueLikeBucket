@@ -1,3 +1,6 @@
+
+Le programme peut être téléchargé sous la forme d'un jar à l'adresse suivante : https://github.com/AntoineCraipeau/RogueLikeBucket/releases
+
 # Ouverture du projet dans IntelliJ IDEA :
 
   Pour la création de notre jeu-vidéo, nous avons décidé d’utiliser le langage Java avec la librairie libGDX. Il existe un utilitaire permettant de générer un projet Gradle avec la librairie préinstallée.
