@@ -1,5 +1,5 @@
 
-Le programme peut être téléchargé sous la forme d'un jar à l'adresse suivante : https://github.com/AntoineCraipeau/RogueLikeBucket/releases
+Le programme peut être téléchargé sous la forme d'un jar à l'adresse suivante : https://github.com/Leowenex/RogueLikeBucket/releases
 
 # Ouverture du projet dans IntelliJ IDEA :
 
